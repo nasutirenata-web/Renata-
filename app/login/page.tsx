@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
-import { Button } from "@/components/ui/Button";
+import { LoginForms } from "@/components/auth/LoginForms";
 
 export default async function LoginPage({
   searchParams,
@@ -8,6 +8,7 @@ export default async function LoginPage({
   searchParams: Promise<{ error?: string; notice?: string; next?: string }>;
 }) {
   const { error, notice, next } = await searchParams;
+  const resolvedNext = next ?? "/dashboard";
 
   return (
     <main className="capsule-auth-shell flex min-h-screen items-center justify-center bg-background px-5 py-16">
@@ -28,7 +29,7 @@ export default async function LoginPage({
                 <span className="text-lime">❯</span> iniciando sesión
               </p>
               <h1 className="mt-2 text-xl font-semibold">Ingresar</h1>
-              <p className="mt-1 text-sm text-muted">Entrá con tu email y contraseña.</p>
+              <p className="mt-1 text-sm text-muted">Lanzá tu sesión: con un enlace de acceso o con contraseña.</p>
               {notice && (
                 <p className="mt-4 rounded-xl border border-lime/30 bg-lime/10 px-3 py-2 text-sm text-lime">
                   {notice}
@@ -39,33 +40,7 @@ export default async function LoginPage({
                   {error}
                 </p>
               )}
-              <form action="/api/auth/login" method="post" className="mt-6 flex flex-col gap-4">
-                <input type="hidden" name="next" value={next ?? "/dashboard"} />
-                <label className="flex flex-col gap-1.5 text-sm">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
-                    placeholder="vos@tuempresa.com"
-                  />
-                </label>
-                <label className="flex flex-col gap-1.5 text-sm">
-                  Contraseña
-                  <input
-                    type="password"
-                    name="password"
-                    required
-                    autoComplete="current-password"
-                    className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
-                    placeholder="••••••••"
-                  />
-                </label>
-                <Button type="submit" className="mt-2 w-full">
-                  Ingresar
-                </Button>
-              </form>
+              <LoginForms next={resolvedNext} />
             </div>
           </div>
         </div>
