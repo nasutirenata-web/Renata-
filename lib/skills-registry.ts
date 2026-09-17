@@ -1,7 +1,7 @@
 export type SkillField = {
   name: string;
   label: string;
-  type: "text" | "textarea";
+  type: "text" | "textarea" | "email" | "contact-name";
   placeholder?: string;
   required?: boolean;
 };
@@ -26,7 +26,13 @@ export const skillTools: SkillTool[] = [
     module: "Outbound · Email",
     funnel: "outbound",
     fields: [
-      { name: "contacto", label: "Nombre y cargo del prospecto", type: "text", required: true },
+      { name: "nombre", label: "Nombre del prospecto", type: "contact-name", required: true },
+      {
+        name: "cargo",
+        label: "Cargo (se completa solo al elegir un contacto guardado)",
+        type: "text",
+      },
+      { name: "email", label: "Email del prospecto", type: "email" },
       { name: "empresa", label: "Empresa y qué hace", type: "text", required: true },
       { name: "trigger", label: "Trigger (por qué contactar ahora)", type: "textarea", required: true },
       { name: "angulo", label: "Ángulo / problema que resolvés", type: "textarea", required: true },

@@ -5,10 +5,18 @@ import { type SkillTool } from "@/lib/skills-registry";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { Sparkles, Copy, Check, ImageIcon, Download } from "lucide-react";
+import { Sparkles, Copy, Check, ImageIcon, Download, Mail } from "lucide-react";
 import { markdownLiteToHtml } from "@/lib/utils";
 
-export function ToolRunner({ tool }: { tool: SkillTool }) {
+type KnownContact = { full_name: string; role_title: string | null; email: string | null };
+
+export function ToolRunner({
+  tool,
+  knownContacts = [],
+}: {
+  tool: SkillTool;
+  knownContacts?: KnownContact[];
+}) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [result, setResult] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -81,6 +89,25 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
     link.click();
   }
 
+  function handleContactNameChange(name: string) {
+    setValues((v) => ({ ...v, nombre: name }));
+    const match = knownContacts.find((c) => c.full_name.toLowerCase() === name.toLowerCase());
+    if (match) {
+      setValues((v) => ({
+        ...v,
+        nombre: name,
+        cargo: match.role_title ?? v.cargo ?? "",
+        email: match.email ?? v.email ?? "",
+      }));
+    }
+  }
+
+  const emailField = tool.fields.find((f) => f.type === "email");
+  const mailtoHref =
+    result && emailField && values[emailField.name]
+      ? `mailto:${encodeURIComponent(values[emailField.name])}?subject=${encodeURIComponent(tool.title)}&body=${encodeURIComponent(result)}`
+      : null;
+
   return (
     <div className="grid gap-6 p-8 lg:grid-cols-2">
       <Card className="flex flex-col gap-4">
@@ -99,9 +126,26 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
                 onChange={(e) => setValues((v) => ({ ...v, [field.name]: e.target.value }))}
                 className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
               />
+            ) : field.type === "contact-name" ? (
+              <>
+                <input
+                  type="text"
+                  list="known-contacts"
+                  required={field.required}
+                  placeholder={field.placeholder ?? "Escribí o elegí un contacto guardado"}
+                  value={values[field.name] ?? ""}
+                  onChange={(e) => handleContactNameChange(e.target.value)}
+                  className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
+                />
+                <datalist id="known-contacts">
+                  {knownContacts.map((c) => (
+                    <option key={c.full_name} value={c.full_name} />
+                  ))}
+                </datalist>
+              </>
             ) : (
               <input
-                type="text"
+                type={field.type === "email" ? "email" : "text"}
                 required={field.required}
                 placeholder={field.placeholder}
                 value={values[field.name] ?? ""}
@@ -151,6 +195,22 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
               className="whitespace-pre-wrap rounded-2xl border border-surface-border bg-surface-2 p-4 font-sans text-sm leading-relaxed text-foreground/90"
               dangerouslySetInnerHTML={{ __html: markdownLiteToHtml(result) }}
             />
+          )}
+          {result && emailField && (
+            <div className="mt-4">
+              {mailtoHref ? (
+                <a
+                  href={mailtoHref}
+                  className="capsule-button capsule-button-aqua inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-display font-semibold backdrop-blur-xl transition-all duration-200"
+                >
+                  <Mail className="h-4 w-4" /> Enviar por email
+                </a>
+              ) : (
+                <p className="text-xs text-muted-2">
+                  Completá "{emailField.label}" para poder enviarlo desde acá.
+                </p>
+              )}
+            </div>
           )}
           {result && tool.slug === "briefing-diseno" && (
             <div className="mt-4 flex flex-col gap-3">

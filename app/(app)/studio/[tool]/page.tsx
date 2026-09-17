@@ -43,10 +43,23 @@ export default async function StudioToolPage({
     );
   }
 
+  let knownContacts: { full_name: string; role_title: string | null; email: string | null }[] = [];
+  if (tool.fields.some((f) => f.type === "contact-name")) {
+    const ctx = await getOrgContext();
+    if (ctx) {
+      const { data } = await ctx.supabase
+        .from("contacts")
+        .select("full_name, role_title, email")
+        .eq("organization_id", ctx.orgId)
+        .order("created_at", { ascending: false });
+      knownContacts = data ?? [];
+    }
+  }
+
   return (
     <>
       <PageHeader title={tool.title} description={tool.description} />
-      <ToolRunner tool={tool} />
+      <ToolRunner tool={tool} knownContacts={knownContacts} />
     </>
   );
 }
