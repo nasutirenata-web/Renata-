@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 import { getSkillTool } from "@/lib/skills-registry";
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
 
   const body = await req.json().catch(() => null);
   if (!body || typeof body.slug !== "string" || typeof body.inputs !== "object") {
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       {
         error: "not_configured",
         message:
-          "Falta configurar ANTHROPIC_API_KEY en el servidor. Podés escribir el contenido a mano y guardarlo igual.",
+          "Falta configurar GEMINI_API_KEY en el servidor. Podés escribir el contenido a mano y guardarlo igual.",
       },
       { status: 501 },
     );
@@ -40,31 +40,20 @@ export async function POST(req: NextRequest) {
     .map(([key, value]) => `${key}: ${value}`)
     .join("\n\n");
 
-  const client = new Anthropic({ apiKey });
+  const ai = new GoogleGenAI({ apiKey });
 
   try {
-    const message = await client.messages.create({
-      model: "claude-sonnet-5",
-      max_tokens: 2000,
-      system: skillContent,
-      messages: [
-        {
-          role: "user",
-          content: `Datos aportados por el usuario para esta tarea:\n\n${inputsText || "(sin datos adicionales — usá las reglas por defecto de la skill)"}\n\nGenerá el resultado siguiendo exactamente el workflow y las reglas de la skill.`,
-        },
-      ],
+    const interaction = await ai.interactions.create({
+      model: "gemini-3.6-flash",
+      input: `Datos aportados por el usuario para esta tarea:\n\n${inputsText || "(sin datos adicionales — usá las reglas por defecto de la skill)"}\n\nGenerá el resultado siguiendo exactamente el workflow y las reglas de la skill.`,
+      system_instruction: skillContent,
     });
 
-    const text = message.content
-      .filter((block): block is Anthropic.TextBlock => block.type === "text")
-      .map((block) => block.text)
-      .join("\n");
-
-    return NextResponse.json({ result: text });
+    return NextResponse.json({ result: interaction.output_text });
   } catch (error) {
     const description = error instanceof Error ? error.message : "Error desconocido.";
     return NextResponse.json(
-      { error: "provider_error", message: `Anthropic devolvió un error: ${description}` },
+      { error: "provider_error", message: `Gemini devolvió un error: ${description}` },
       { status: 502 },
     );
   }

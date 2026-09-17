@@ -16,7 +16,7 @@ export default function IntegracionesPage() {
   const supabaseConnected = Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
-  const anthropicConnected = Boolean(process.env.ANTHROPIC_API_KEY);
+  const geminiConnected = Boolean(process.env.GEMINI_API_KEY);
   const linkedinConnected = Boolean(
     process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET,
   );
@@ -55,14 +55,14 @@ export default function IntegracionesPage() {
               <Bot className="h-5 w-5" />
             </div>
             <div>
-              <CardTitle>IA (Anthropic)</CardTitle>
+              <CardTitle>IA (Gemini · Nano Banana)</CardTitle>
               <CardDescription className="mt-1 max-w-md">
-                Motor de generación para el Studio y el Chat. Requiere una
-                ANTHROPIC_API_KEY configurada en el servidor.
+                Motor de generación para el Studio, el Chat y el diseño de imágenes.
+                Requiere una GEMINI_API_KEY configurada en el servidor.
               </CardDescription>
             </div>
           </div>
-          {statusBadge(anthropicConnected)}
+          {statusBadge(geminiConnected)}
         </Card>
 
         <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

@@ -1,14 +1,16 @@
 import { PageHeader } from "@/components/app/PageHeader";
-import { ImageDesigner } from "@/components/studio/ImageDesigner";
+import { AIImageGenerator } from "@/components/studio/AIImageGenerator";
 
 export default function DisenoPage() {
   return (
     <>
       <PageHeader
         title="Diseño de imágenes"
-        description="Componé piezas on-brand para publicaciones. Se genera en tu navegador, sin depender de un proveedor externo."
+        description="Generá una imagen con IA a partir de una idea, en el formato que necesites."
       />
-      <ImageDesigner />
+      <div className="p-8">
+        <AIImageGenerator />
+      </div>
     </>
   );
 }

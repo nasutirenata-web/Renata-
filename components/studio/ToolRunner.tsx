@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Sparkles, Copy, Check } from "lucide-react";
+import { markdownLiteToHtml } from "@/lib/utils";
 
 export function ToolRunner({ tool }: { tool: SkillTool }) {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -111,9 +112,10 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
             </div>
           )}
           {result && (
-            <pre className="whitespace-pre-wrap rounded-2xl border border-surface-border bg-surface-2 p-4 text-sm leading-relaxed text-foreground/90">
-              {result}
-            </pre>
+            <div
+              className="whitespace-pre-wrap rounded-2xl border border-surface-border bg-surface-2 p-4 font-sans text-sm leading-relaxed text-foreground/90"
+              dangerouslySetInnerHTML={{ __html: markdownLiteToHtml(result) }}
+            />
           )}
         </div>
       </Card>

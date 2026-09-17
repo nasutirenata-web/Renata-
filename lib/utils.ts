@@ -21,6 +21,18 @@ export function formatDateTime(value: string | Date) {
   }).format(date);
 }
 
+export function markdownLiteToHtml(text: string) {
+  const escaped = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  return escaped
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|\n)&gt; ?(.*)/g, '$1<span class="block border-l-2 border-lime/40 pl-3 text-muted italic">$2</span>')
+    .replace(/\*(.+?)\*/g, "<em>$1</em>");
+}
+
 export function initials(name: string) {
   return name
     .trim()

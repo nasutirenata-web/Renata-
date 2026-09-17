@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { Send, Bot, User } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { cn } from "@/lib/utils";
+import { cn, markdownLiteToHtml } from "@/lib/utils";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -67,9 +67,10 @@ export function ChatPanel() {
                   ? "bg-lime text-lime-foreground"
                   : "border border-surface-border bg-surface text-foreground/90",
               )}
-            >
-              {m.content}
-            </div>
+              {...(m.role === "assistant"
+                ? { dangerouslySetInnerHTML: { __html: markdownLiteToHtml(m.content) } }
+                : { children: m.content })}
+            />
             {m.role === "user" && (
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-muted">
                 <User className="h-4 w-4" />
