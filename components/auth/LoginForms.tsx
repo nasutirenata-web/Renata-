@@ -68,7 +68,7 @@ export function LoginForms({ next }: { next: string }) {
             mode === "code" ? "bg-lime text-lime-foreground" : "text-muted hover:text-foreground"
           }`}
         >
-          Código de acceso
+          Palabra de acceso
         </button>
         <button
           type="button"
@@ -104,10 +104,10 @@ export function LoginForms({ next }: { next: string }) {
             />
           </label>
           <Button type="submit" disabled={pending} className="mt-2 w-full">
-            {pending ? "Enviando…" : "Enviarme el código"}
+            {pending ? "Enviando…" : "Enviarme la palabra"}
           </Button>
           <p className="text-center text-xs text-muted">
-            Te lanzamos un código de acceso a tu email. Lo escribís acá mismo, sin salir del navegador.
+            Te lanzamos una palabra de marketing a tu email. La escribís acá mismo, sin salir del navegador.
           </p>
         </form>
       )}
@@ -115,18 +115,18 @@ export function LoginForms({ next }: { next: string }) {
       {mode === "code" && step === "code" && (
         <form onSubmit={verifyCode} className="flex flex-col gap-4">
           <p className="text-sm text-muted">
-            Enviamos un código a <span className="text-foreground">{email}</span>.
+            Enviamos una palabra de marketing a <span className="text-foreground">{email}</span>.
           </p>
           <label className="flex flex-col gap-1.5 text-sm">
-            Código de acceso
+            Palabra de acceso
             <input
               type="text"
               name="token"
               required
               autoFocus
-              inputMode="numeric"
-              className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-center text-lg tracking-[0.4em] outline-none focus:border-lime"
-              placeholder="······"
+              autoCapitalize="characters"
+              className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-center text-lg uppercase tracking-wide outline-none focus:border-lime"
+              placeholder="EJ: FUNNEL-GROWTH"
             />
           </label>
           <Button type="submit" disabled={pending} className="mt-2 w-full">
