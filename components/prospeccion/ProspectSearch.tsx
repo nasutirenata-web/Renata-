@@ -16,10 +16,14 @@ const TEMPS: { value: Temp; className: string; label: string }[] = [
   { value: "hot", className: "bg-red-500", label: "Caliente" },
 ];
 
+type Origen = "outbound" | "inbound";
+
 export function ProspectSearch() {
   const [segmento, setSegmento] = useState("");
   const [zona, setZona] = useState("");
   const [tamano, setTamano] = useState("");
+  const [rol, setRol] = useState("");
+  const [origen, setOrigen] = useState<Origen>("outbound");
   const [results, setResults] = useState<Prospecto[]>([]);
   const [temps, setTemps] = useState<Record<number, Temp>>({});
   const [added, setAdded] = useState<Record<number, boolean>>({});
@@ -37,7 +41,7 @@ export function ProspectSearch() {
       const res = await fetch("/api/ai/prospectar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ segmento, zona, tamano }),
+        body: JSON.stringify({ segmento, zona, tamano, rol, origen }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -47,7 +51,9 @@ export function ProspectSearch() {
       setResults(data.prospectos);
       startTransition(() => {
         logSearch(
-          [segmento, zona, tamano].filter(Boolean).join(" · ") || "sin criterio",
+          [segmento, zona, tamano, rol, origen === "inbound" ? "inbound" : "outbound"]
+            .filter(Boolean)
+            .join(" · ") || "sin criterio",
           data.prospectos.length,
         );
       });
@@ -60,7 +66,7 @@ export function ProspectSearch() {
 
   function handleAdd(i: number, name: string) {
     startTransition(async () => {
-      const res = await addProspectToCrm(name);
+      const res = await addProspectToCrm(name, origen);
       if (!res?.error) setAdded((prev) => ({ ...prev, [i]: true }));
     });
   }
@@ -74,7 +80,7 @@ export function ProspectSearch() {
           genera una lista sugerida por IA para investigar manualmente — no un
           resultado verificado.
         </CardDescription>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <input
             value={segmento}
             onChange={(e) => setSegmento(e.target.value)}
@@ -84,7 +90,7 @@ export function ProspectSearch() {
           <input
             value={zona}
             onChange={(e) => setZona(e.target.value)}
-            placeholder="Zona / ciudad"
+            placeholder="Ciudad o país"
             className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
           <input
@@ -93,6 +99,20 @@ export function ProspectSearch() {
             placeholder="Tamaño estimado"
             className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
+          <input
+            value={rol}
+            onChange={(e) => setRol(e.target.value)}
+            placeholder="Rol del contacto (ej: dueño, gerente)"
+            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
+          />
+          <select
+            value={origen}
+            onChange={(e) => setOrigen(e.target.value as Origen)}
+            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
+          >
+            <option value="outbound">Outbound</option>
+            <option value="inbound">Inbound</option>
+          </select>
         </div>
         <Button size="sm" className="w-fit" onClick={handleSearch} disabled={loading}>
           <Search className="h-4 w-4" /> {loading ? "Buscando…" : "Buscar"}

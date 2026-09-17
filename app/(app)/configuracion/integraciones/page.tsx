@@ -2,7 +2,8 @@ import { PageHeader } from "@/components/app/PageHeader";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/Button";
-import { Database, Bot, Share2, Plug } from "lucide-react";
+import { Database, Bot, Share2, Plug, Mail } from "lucide-react";
+import { isHunterConfigured } from "@/lib/integrations/hunter";
 
 function statusBadge(connected: boolean) {
   return (
@@ -20,6 +21,7 @@ export default function IntegracionesPage() {
   const linkedinConnected = Boolean(
     process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET,
   );
+  const hunterConnected = isHunterConfigured();
 
   return (
     <>
@@ -88,6 +90,24 @@ export default function IntegracionesPage() {
               {linkedinConnected ? "Reconectar" : "Conectar LinkedIn"}
             </LinkButton>
           </div>
+        </Card>
+
+        <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-brand">
+              <Mail className="h-5 w-5" />
+            </div>
+            <div>
+              <CardTitle>Hunter.io</CardTitle>
+              <CardDescription className="mt-1 max-w-md">
+                Búsqueda de emails corporativos reales por dominio, en Prospección.
+                Gratis hasta 25 búsquedas/mes, sin tarjeta. Conseguí tu key en{" "}
+                <span className="text-brand">hunter.io/api-keys</span> y cargala como
+                HUNTER_API_KEY en las variables de entorno.
+              </CardDescription>
+            </div>
+          </div>
+          {statusBadge(hunterConnected)}
         </Card>
 
         <Card className="flex flex-col gap-4">

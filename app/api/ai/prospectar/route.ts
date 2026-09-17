@@ -42,9 +42,14 @@ export async function POST(req: NextRequest) {
   const segmento = typeof body?.segmento === "string" ? body.segmento.trim() : "";
   const zona = typeof body?.zona === "string" ? body.zona.trim() : "";
   const tamano = typeof body?.tamano === "string" ? body.tamano.trim() : "";
+  const rol = typeof body?.rol === "string" ? body.rol.trim() : "";
+  const origen = body?.origen === "inbound" ? "inbound" : "outbound";
 
-  if (!segmento && !zona) {
-    return NextResponse.json({ error: "Indicá al menos segmento o zona." }, { status: 400 });
+  if (!segmento && !zona && !tamano && !rol) {
+    return NextResponse.json(
+      { error: "Completá al menos uno de los criterios de búsqueda." },
+      { status: 400 },
+    );
   }
 
   const ai = new GoogleGenAI({ apiKey });
@@ -52,7 +57,7 @@ export async function POST(req: NextRequest) {
   try {
     const interaction = await ai.interactions.create({
       model: "gemini-3.6-flash",
-      input: `Segmento: ${segmento || "(sin especificar)"}\nZona: ${zona || "(sin especificar)"}\nTamaño estimado: ${tamano || "(sin especificar)"}`,
+      input: `Segmento: ${segmento || "(sin especificar)"}\nZona: ${zona || "(sin especificar)"}\nTamaño estimado: ${tamano || "(sin especificar)"}\nRol de contacto buscado: ${rol || "(sin especificar)"}\nOrigen: ${origen === "inbound" ? "Inbound (ya mostró interés)" : "Outbound (prospección en frío)"}`,
       system_instruction: SYSTEM_PROMPT,
     });
 

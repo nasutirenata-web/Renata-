@@ -54,7 +54,7 @@ export function AIImageGenerator() {
   return (
     <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
       <Card className="flex flex-col gap-4">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand">
+        <p className="font-display text-xs uppercase tracking-[0.2em] text-brand">
           Generar con IA · Nano Banana
         </p>
         <label className="flex flex-col gap-1.5 text-sm">

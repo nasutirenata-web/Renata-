@@ -102,7 +102,7 @@ export default async function ContactosPage({
         )}
 
         <div>
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-2">
+          <p className="mb-4 font-display text-xs uppercase tracking-[0.2em] text-muted-2">
             Resultado de cada proceso terminado
           </p>
           {!ctx || activities.length === 0 ? (
@@ -116,7 +116,7 @@ export default async function ContactosPage({
               {activities.map((a) => (
                 <Card key={a.id} className="flex items-center justify-between gap-4 py-3">
                   <div>
-                    <span className="font-mono text-xs uppercase tracking-wide text-brand">
+                    <span className="font-display text-xs uppercase tracking-wide text-brand">
                       {a.kind}
                     </span>
                     <p className="mt-1 text-sm text-foreground/90">{a.body}</p>
