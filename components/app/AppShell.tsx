@@ -10,10 +10,13 @@ import {
   Bot,
   Settings,
   CalendarDays,
+  Search,
 } from "lucide-react";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { section: "Outbound" },
+  { href: "/prospeccion", label: "Prospección", icon: Search },
   { section: "CRM" },
   { href: "/crm/empresas", label: "Empresas", icon: Building2 },
   { href: "/crm/contactos", label: "Contactos", icon: Users },
