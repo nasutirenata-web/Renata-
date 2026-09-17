@@ -5,14 +5,14 @@ export async function POST(req: NextRequest) {
   const origin = req.nextUrl.origin;
 
   if (!isSupabaseConfigured()) {
-    const url = new URL("/login", origin);
-    url.searchParams.set("error", "Supabase no está configurado todavía. Revisá Configuración → Integraciones.");
-    return NextResponse.redirect(url, { status: 303 });
+    return NextResponse.json(
+      { error: "Supabase no está configurado todavía. Revisá Configuración → Integraciones." },
+      { status: 400 },
+    );
   }
 
-  const form = await req.formData();
-  const email = String(form.get("email") ?? "");
-  const requestedNext = String(form.get("next") ?? "/dashboard");
+  const { email, next: rawNext } = await req.json();
+  const requestedNext = String(rawNext ?? "/dashboard");
   const next =
     requestedNext.startsWith("/") && !requestedNext.startsWith("//") && !requestedNext.includes("\\")
       ? requestedNext
@@ -20,21 +20,15 @@ export async function POST(req: NextRequest) {
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithOtp({
-    email,
+    email: String(email ?? ""),
     options: {
       shouldCreateUser: false,
       emailRedirectTo: `${origin}/api/auth/callback?next=${encodeURIComponent(next)}`,
     },
   });
 
-  const url = new URL("/login", origin);
   if (error) {
-    url.searchParams.set("error", error.message);
-  } else {
-    url.searchParams.set(
-      "notice",
-      "Lanzamos tu acceso a producción: revisá tu email y hacé un clic en el enlace para entrar sin contraseña.",
-    );
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
-  return NextResponse.redirect(url, { status: 303 });
+  return NextResponse.json({ ok: true });
 }
