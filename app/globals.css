@@ -68,6 +68,13 @@ h1,h2,h3 { font-family: var(--font-manrope), sans-serif; }
 .capsule-terminal-body { min-height:118px; padding:20px 22px 24px; font-family:var(--font-geist-mono,ui-monospace,monospace); }
 .capsule-terminal-cursor { display:inline-block; width:7px; height:15px; margin-left:2px; background:var(--lime); vertical-align:middle; animation:capsule-blink 1s step-end infinite; }
 @keyframes capsule-blink { 50% { opacity:0; } }
+.capsule-auth-shell { position:relative; isolation:isolate; overflow:hidden; }
+.capsule-auth-shell::before { content:""; position:absolute; inset:0; z-index:-1; background:radial-gradient(60% 45% at 50% 0%,rgba(217,249,155,.14) 0%,rgba(217,249,155,0) 70%); }
+.capsule-auth-card { position:relative; border-radius:26px; padding:2px; background:linear-gradient(120deg,#d9f99b,#4c5940,#1a1c18 40%,#1a1c18 60%,#4c5940,#d9f99b); }
+.capsule-auth-card > div { border-radius:24px; }
+.capsule-auth-bar { display:flex; align-items:center; gap:7px; padding:13px 20px; border-bottom:1px solid #33362e; background:#212319; border-radius:24px 24px 0 0; }
+.capsule-auth-dot { width:9px; height:9px; border-radius:50%; opacity:.85; }
+.capsule-auth-prompt { font-family:var(--font-geist-mono,ui-monospace,monospace); font-size:12px; color:var(--muted-2); }
 @media(max-width:767px) { .capsule-hero { padding-block:36px 45px; } .capsule-section { padding-top:60px; } .context-node { padding:10px; font-size:11px; } }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } }
 
