@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-const ASPECT = 900 / 237;
+const ASPECT = 2170 / 725;
 
-export function Logo({ className, height = 40 }: { className?: string; height?: number }) {
+export function Logo({ className, height = 54 }: { className?: string; height?: number }) {
   return (
-    <span className={cn("inline-flex items-center", className)}>
+    <span className={cn("capsule-logo inline-flex items-center", className)}>
       <Image
-        src="/logo-transparent.png"
+        src="/logo-liquid-glass.png"
         alt="Capsule GTM"
         width={Math.round(height * ASPECT)}
         height={height}

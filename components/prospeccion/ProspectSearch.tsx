@@ -79,19 +79,19 @@ export function ProspectSearch() {
             value={segmento}
             onChange={(e) => setSegmento(e.target.value)}
             placeholder="Segmento (ej: comercio de barrio)"
-            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
           <input
             value={zona}
             onChange={(e) => setZona(e.target.value)}
             placeholder="Zona / ciudad"
-            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
           <input
             value={tamano}
             onChange={(e) => setTamano(e.target.value)}
             placeholder="Tamaño estimado"
-            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
         </div>
         <Button size="sm" className="w-fit" onClick={handleSearch} disabled={loading}>

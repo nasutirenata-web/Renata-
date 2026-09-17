@@ -2,8 +2,8 @@
 
 - Proyecto canónico: C:\Users\Renata\Proyecto capsule gtm.
 - Conservar Next.js, React, Tailwind, Gemini y la configuración de Vercel existente.
-- Diseño aprobado: fondo #252724, superficies #30322f, lima #d9f99b, DM Sans + Manrope, tarjetas redondeadas y botones de vidrio con brillo legible.
-- Logo aprobado: public/logo-transparent.png, extraído del PDF de la propietaria. No redibujarlo.
+- Diseño aprobado actualizado: Liquid Glass claro, lila y verde agua. Fondo suave #e9e8f0, paneles translúcidos, acentos #9167f5 y #39d2cc, texto oscuro #28243c. DM Sans + Manrope, tarjetas redondeadas y botones con volumen y reflejos. Reemplaza la dirección gris/lima anterior por pedido explícito de Renata.
+- Logo vigente: public/logo-liquid-glass.png, variante turquesa/violeta de la forma original. Conservar public/logo-transparent.png como original histórico.
 - Mantener todas las entradas del menú, además de CRM, LinkedIn y diseño.
 - Público actual: empresas B2B de marketing, IA y tecnología. Varowa es una referencia histórica, no el nombre del usuario ni una restricción de sector.
 - Nunca simular guardados, publicaciones, conexiones ni resultados. Configurado no significa conectado.

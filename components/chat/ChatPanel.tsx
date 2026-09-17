@@ -56,7 +56,7 @@ export function ChatPanel() {
         {messages.map((m, i) => (
           <div key={i} className={cn("flex gap-3", m.role === "user" && "justify-end")}>
             {m.role === "assistant" && (
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-lime">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-brand">
                 <Bot className="h-4 w-4" />
               </div>
             )}
@@ -64,7 +64,7 @@ export function ChatPanel() {
               className={cn(
                 "max-w-xl whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed",
                 m.role === "user"
-                  ? "bg-lime text-lime-foreground"
+                  ? "bg-brand text-brand-foreground"
                   : "border border-surface-border bg-surface text-foreground/90",
               )}
               {...(m.role === "assistant"
@@ -80,7 +80,7 @@ export function ChatPanel() {
         ))}
         {loading && (
           <div className="flex gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-lime">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-brand">
               <Bot className="h-4 w-4" />
             </div>
             <div className="rounded-2xl border border-surface-border bg-surface px-4 py-3 text-sm text-muted">
@@ -108,7 +108,7 @@ export function ChatPanel() {
               }
             }}
             placeholder="Escribí tu mensaje…"
-            className="flex-1 resize-none rounded-2xl border border-surface-border bg-surface-2 px-4 py-3 text-sm outline-none focus:border-lime"
+            className="flex-1 resize-none rounded-2xl border border-surface-border bg-surface-2 px-4 py-3 text-sm outline-none focus:border-brand"
           />
           <Button onClick={send} disabled={loading}>
             <Send className="h-4 w-4" />

@@ -6,16 +6,16 @@ type Variant = "primary" | "secondary" | "ghost" | "outline";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "capsule-button inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background backdrop-blur-xl";
+  "capsule-button inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none backdrop-blur-xl";
 
 const variants: Record<Variant, string> = {
   primary:
-    "capsule-button-lime text-lime-foreground border border-lime/60 hover:-translate-y-0.5",
+    "capsule-button-primary text-brand-foreground",
   secondary:
-    "capsule-button-glass text-foreground border border-white/25 hover:border-lime/40 hover:text-lime",
-  ghost: "text-foreground/80 hover:text-lime hover:bg-white/[0.1]",
+    "capsule-button-aqua",
+  ghost: "capsule-button-ghost text-muted hover:bg-white/35 hover:text-brand",
   outline:
-    "capsule-button-glass border border-white/25 text-foreground hover:border-lime hover:text-lime",
+    "capsule-button-glass hover:text-brand",
 };
 
 const sizes: Record<Size, string> = {

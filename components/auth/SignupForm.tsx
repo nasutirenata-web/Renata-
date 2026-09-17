@@ -11,7 +11,7 @@ export function SignupForm() {
           type="text"
           name="full_name"
           required
-          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           placeholder="Tu nombre"
         />
       </label>
@@ -21,7 +21,7 @@ export function SignupForm() {
           type="text"
           name="organization_name"
           required
-          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           placeholder="Nombre de tu empresa"
         />
       </label>
@@ -31,7 +31,7 @@ export function SignupForm() {
           type="email"
           name="email"
           required
-          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           placeholder="vos@tuempresa.com"
         />
       </label>
@@ -43,7 +43,7 @@ export function SignupForm() {
           required
           minLength={8}
           autoComplete="new-password"
-          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           placeholder="Mínimo 8 caracteres"
         />
       </label>

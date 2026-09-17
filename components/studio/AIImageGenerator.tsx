@@ -54,7 +54,7 @@ export function AIImageGenerator() {
   return (
     <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
       <Card className="flex flex-col gap-4">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-lime">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand">
           Generar con IA · Nano Banana
         </p>
         <label className="flex flex-col gap-1.5 text-sm">
@@ -63,8 +63,8 @@ export function AIImageGenerator() {
             rows={4}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ej: infografía minimalista mostrando el funnel de contacto a primer pedido, tonos negro y lima"
-            className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+            placeholder="Ej: infografía minimalista mostrando el funnel de contacto a primer pedido, vidrio translúcido en turquesa y violeta"
+            className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
         <label className="flex flex-col gap-1.5 text-sm">
@@ -72,7 +72,7 @@ export function AIImageGenerator() {
           <select
             value={aspectRatio}
             onChange={(e) => setAspectRatio(e.target.value as typeof aspectRatio)}
-            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+            className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           >
             {RATIOS.map((r) => (
               <option key={r.value} value={r.value}>

@@ -59,7 +59,7 @@ export default async function EmpresasPage({
               <Card key={c.id} className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <p className="font-medium text-foreground">{c.name}</p>
-                  <Badge tone="lime">{c.origin}</Badge>
+                  <Badge tone="brand">{c.origin}</Badge>
                 </div>
                 {c.segment && <p className="text-sm text-muted">{c.segment}</p>}
                 <p className="text-xs text-muted-2">Creada {formatDate(c.created_at)}</p>

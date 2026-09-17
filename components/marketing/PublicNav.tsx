@@ -11,10 +11,10 @@ const links = [
 
 export function PublicNav() {
   return (
-    <header className="relative z-50 bg-background/90 backdrop-blur-xl">
+    <header className="capsule-nav sticky top-0 z-50">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <Link href="/" aria-label="Capsule GTM — inicio">
-          <Logo height={43}/>
+          <Logo height={58}/>
         </Link>
         <nav className="hidden items-center gap-7 md:flex">
           {links.map((link) => (

@@ -134,7 +134,7 @@ export function LeadScoringTool({
             rows={2}
             value={icp}
             onChange={(e) => setIcp(e.target.value)}
-            className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+            className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
         <p className="text-xs text-muted-2">
@@ -165,7 +165,7 @@ export function LeadScoringTool({
                       type="checkbox"
                       checked={selected.has(c.id)}
                       onChange={() => toggle(c.id)}
-                      className="h-4 w-4 accent-lime"
+                      className="h-4 w-4 accent-brand"
                     />
                   </td>
                   <td className="px-4 py-3">

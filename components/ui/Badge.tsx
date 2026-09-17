@@ -1,10 +1,10 @@
 import { type ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
-type Tone = "lime" | "neutral" | "warning" | "danger" | "ok";
+type Tone = "brand" | "neutral" | "warning" | "danger" | "ok";
 
 const tones: Record<Tone, string> = {
-  lime: "bg-lime/10 text-lime border-lime/30",
+  brand: "bg-brand/10 text-brand border-brand/30",
   neutral: "bg-surface-2 text-muted border-surface-border",
   warning: "bg-warning/10 text-warning border-warning/30",
   danger: "bg-danger/10 text-danger border-danger/30",
@@ -30,7 +30,7 @@ export function Badge({
 
 export function StatusDot({ tone = "neutral" }: { tone?: Tone }) {
   const dot: Record<Tone, string> = {
-    lime: "bg-lime",
+    brand: "bg-brand",
     neutral: "bg-muted-2",
     warning: "bg-warning",
     danger: "bg-danger",

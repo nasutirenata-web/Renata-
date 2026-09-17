@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   try {
     const interaction = await ai.interactions.create({
       model: "gemini-3.1-flash-image",
-      input: `Imagen para una publicación de LinkedIn B2B, estilo profesional, minimalista, marca "Capsule GTM" en tonos negro y lima. ${prompt}`,
+      input: `Imagen para una publicación de LinkedIn B2B, estilo profesional, marca "Capsule GTM" con vidrio translúcido y reflejos turquesa y violeta sobre un fondo suave y claro. Respetá la dirección visual específica del usuario si pide otros colores o estilo. ${prompt}`,
       response_format: {
         type: "image",
         mime_type: "image/jpeg",

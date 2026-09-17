@@ -13,7 +13,7 @@ export function LoginForms({ next, defaultEmail }: { next: string; defaultEmail?
           name="email"
           required
           defaultValue={defaultEmail}
-          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           placeholder="vos@tuempresa.com"
         />
       </label>
@@ -24,7 +24,7 @@ export function LoginForms({ next, defaultEmail }: { next: string; defaultEmail?
           name="password"
           required
           autoComplete="current-password"
-          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           placeholder="••••••••"
         />
       </label>

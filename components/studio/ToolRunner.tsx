@@ -97,7 +97,7 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
                 placeholder={field.placeholder}
                 value={values[field.name] ?? ""}
                 onChange={(e) => setValues((v) => ({ ...v, [field.name]: e.target.value }))}
-                className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+                className="resize-none rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
               />
             ) : (
               <input
@@ -106,7 +106,7 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
                 placeholder={field.placeholder}
                 value={values[field.name] ?? ""}
                 onChange={(e) => setValues((v) => ({ ...v, [field.name]: e.target.value }))}
-                className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
+                className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
               />
             )}
           </label>
@@ -123,7 +123,7 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
           {result && (
             <button
               onClick={handleCopy}
-              className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-lime"
+              className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-brand"
             >
               {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
               {copied ? "Copiado" : "Copiar"}

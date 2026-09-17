@@ -30,7 +30,7 @@ export default function IntegracionesPage() {
       <div className="flex flex-col gap-4 p-8">
         <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-lime">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-brand">
               <Database className="h-5 w-5" />
             </div>
             <div>
@@ -51,7 +51,7 @@ export default function IntegracionesPage() {
 
         <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-lime">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-brand">
               <Bot className="h-5 w-5" />
             </div>
             <div>
@@ -67,7 +67,7 @@ export default function IntegracionesPage() {
 
         <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-lime">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-brand">
               <Share2 className="h-5 w-5" />
             </div>
             <div>
@@ -92,7 +92,7 @@ export default function IntegracionesPage() {
 
         <Card className="flex flex-col gap-4">
           <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-lime">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-brand">
               <Plug className="h-5 w-5" />
             </div>
             <div>

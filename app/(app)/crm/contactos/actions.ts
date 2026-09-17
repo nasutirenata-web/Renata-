@@ -31,12 +31,15 @@ export async function setTemperature(contactId: string, temperature: "cold" | "w
   const ctx = await getOrgContext();
   if (!ctx) return { error: "No hay sesión activa u organización." };
 
-  const { error } = await ctx.supabase
+  if (!["hot","warm","cold"].includes(temperature)) return { error: "Cualificación inválida." };
+  const { data, error } = await ctx.supabase
     .from("contacts")
     .update({ temperature })
     .eq("id", contactId)
-    .eq("organization_id", ctx.orgId);
+    .eq("organization_id", ctx.orgId).select("id").maybeSingle();
 
+  if (!data && !error) return { error: "No se pudo guardar: el contacto no está disponible o no tenés permiso." };
+  revalidatePath("/studio/scoring-leads");
   if (error) return { error: error.message };
 
   revalidatePath("/crm/contactos");

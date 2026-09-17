@@ -60,14 +60,14 @@ export function TerminalDemo() {
   return (
     <div className="capsule-terminal" aria-label="Demostración del asistente de Capsule GTM">
       <div className="capsule-terminal-bar">
-        <span className="capsule-terminal-dot" style={{ background: "#ef4444" }} />
-        <span className="capsule-terminal-dot" style={{ background: "#f59e0b" }} />
-        <span className="capsule-terminal-dot" style={{ background: "#d9f99b" }} />
-        <span className="ml-3 text-[11px] tracking-wide text-muted">capsule · asistente gtm</span>
+        <span className="capsule-terminal-dot" />
+        <span className="capsule-terminal-dot" />
+        <span className="capsule-terminal-dot" />
+        <span className="ml-3 text-[11px] tracking-wide text-muted">capsule · asistente gtm</span><span className="ml-auto text-[10px] text-muted">Vista de ejemplo</span>
       </div>
       <div className="capsule-terminal-body">
         <p className="flex items-start gap-2 text-[13px] sm:text-sm">
-          <span className="text-lime">❯</span>
+          <span className="text-brand">❯</span>
           <span>
             {typedPrompt}
             {!showResponse && <span className="capsule-terminal-cursor" />}
@@ -75,7 +75,7 @@ export function TerminalDemo() {
         </p>
         {showResponse && (
           <p className="mt-4 flex items-start gap-2 whitespace-pre-line text-[13px] leading-relaxed text-muted sm:text-sm">
-            <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-lime" strokeWidth={1.5} />
+            <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
             <span>{scene.response}</span>
           </p>
         )}

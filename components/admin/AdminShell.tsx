@@ -14,7 +14,7 @@ const nav = [
 export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-surface-border/60 bg-surface/40 md:flex">
+      <aside className="capsule-sidebar hidden w-64 shrink-0 flex-col border-r border-surface-border/60 bg-surface/40 md:flex">
         <div className="flex flex-col gap-2 px-6 py-6">
           <Link href="/">
             <Logo />
@@ -28,7 +28,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-foreground/80 transition-colors hover:bg-surface-2 hover:text-lime"
+              className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-foreground/80 transition-colors hover:bg-surface-2 hover:text-brand"
             >
               <item.icon className="h-4 w-4" />
               {item.label}

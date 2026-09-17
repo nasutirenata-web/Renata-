@@ -28,7 +28,7 @@ export function NewCompanyForm({ origin }: { origin: "outbound" | "inbound" }) {
           else setOpen(false);
         });
       }}
-      className="flex flex-wrap items-end gap-3 rounded-2xl border border-lime/20 bg-lime/[0.05] p-4"
+      className="flex flex-wrap items-end gap-3 rounded-2xl border border-brand/20 bg-brand/[0.05] p-4"
     >
       <input type="hidden" name="origin" value={origin} />
       <label className="flex flex-col gap-1 text-xs text-muted">
@@ -36,7 +36,7 @@ export function NewCompanyForm({ origin }: { origin: "outbound" | "inbound" }) {
         <input
           name="name"
           required
-          className="rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-brand"
           placeholder="Farmacia del Centro"
         />
       </label>
@@ -44,7 +44,7 @@ export function NewCompanyForm({ origin }: { origin: "outbound" | "inbound" }) {
         Segmento
         <input
           name="segment"
-          className="rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-lime"
+          className="rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-brand"
           placeholder="Farmacia / comercio"
         />
       </label>

@@ -35,7 +35,7 @@ export default async function PipelinePage({
           {stages.map((stage) => (
             <div
               key={stage.key}
-              className="flex min-h-[280px] flex-col rounded-3xl border border-surface-border bg-surface/50 p-4"
+              className="glass-panel flex min-h-[280px] flex-col rounded-3xl p-4"
             >
               <div className="flex items-center justify-between px-1">
                 <p className="text-sm font-medium text-foreground">{stage.label}</p>
