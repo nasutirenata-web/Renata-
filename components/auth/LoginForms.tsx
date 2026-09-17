@@ -49,7 +49,7 @@ export function LoginForms({ next }: { next: string }) {
             required
             autoComplete="current-password"
             className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
-            placeholder={mode === "word" ? "EJ: FUNNEL-GROWTH" : "••••••••"}
+            placeholder={mode === "word" ? "EJ: FUNNEL" : "••••••••"}
           />
         </label>
         <Button type="submit" className="mt-2 w-full">

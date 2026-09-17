@@ -19,13 +19,20 @@ export const MARKETING_WORDS = [
   "NURTURING",
   "CHURN",
   "UPSELL",
+  "MARKETING",
+  "ICP",
+  "SEO",
+  "ADS",
+  "CTA",
+  "KPI",
+  "ROI",
 ];
 
 export function randomMarketingCode() {
-  const a = MARKETING_WORDS[Math.floor(Math.random() * MARKETING_WORDS.length)];
-  let b = MARKETING_WORDS[Math.floor(Math.random() * MARKETING_WORDS.length)];
-  while (b === a) {
-    b = MARKETING_WORDS[Math.floor(Math.random() * MARKETING_WORDS.length)];
+  const word = MARKETING_WORDS[Math.floor(Math.random() * MARKETING_WORDS.length)];
+  if (word.length < 4) {
+    const digit = Math.floor(1 + Math.random() * 9);
+    return `${word}${digit}`;
   }
-  return `${a}-${b}`;
+  return word;
 }

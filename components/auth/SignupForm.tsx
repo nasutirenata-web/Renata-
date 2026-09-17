@@ -63,8 +63,8 @@ export function SignupForm() {
 
       {passwordMode === "generated" ? (
         <p className="text-xs text-muted">
-          Te generamos una palabra de marketing (ej. FUNNEL-GROWTH) para que uses como contraseña. La vas a ver una
-          sola vez al terminar.
+          Te generamos una palabra de marketing (ej. FUNNEL) para que uses como contraseña. La vas a ver una sola
+          vez al terminar.
         </p>
       ) : (
         <label className="flex flex-col gap-1.5 text-sm">
