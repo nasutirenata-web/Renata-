@@ -6,7 +6,7 @@ export default function OfertaPage() {
     <>
       <PageHeader
         title="Oferta y catálogo"
-        description="La propuesta comercial para el punto de venta y su presentación."
+        description="La propuesta comercial para el cliente B2B y su presentación."
       />
       <div className="flex flex-col gap-6 p-8">
         <StrategySection

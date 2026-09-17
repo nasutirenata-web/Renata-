@@ -11,9 +11,9 @@ export default function PreciosPage() {
       <div className="flex flex-col gap-6 p-8">
         <StrategySection
           title="Estructura de precios"
-          description="Cómo se arma el precio para el punto de venta."
+          description="Cómo se estructura el precio de tu servicio, proyecto o suscripción."
           fields={[
-            { name: "lista", label: "Lista de precios / rangos por línea de producto", rows: 4 },
+            { name: "lista", label: "Precios / rangos por servicio, solución o suscripción", rows: 4 },
             { name: "descuentos", label: "Descuentos por volumen o condición" },
           ]}
         />

@@ -1,3 +1,4 @@
+import { requireAIUser } from "@/lib/api-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -5,6 +6,8 @@ import { GoogleGenAI } from "@google/genai";
 import { getSkillTool } from "@/lib/skills-registry";
 
 export async function POST(req: NextRequest) {
+  const denied = await requireAIUser();
+  if (denied) return denied;
   const apiKey = process.env.GEMINI_API_KEY;
 
   const body = await req.json().catch(() => null);

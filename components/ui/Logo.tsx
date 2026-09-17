@@ -12,7 +12,7 @@ export function Logo({ className, height = 40 }: { className?: string; height?: 
         width={Math.round(height * ASPECT)}
         height={height}
         priority
-        className="object-contain"
+        className="h-auto max-w-full object-contain"
       />
     </span>
   );

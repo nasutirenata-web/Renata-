@@ -20,7 +20,7 @@ export default function IcpPage() {
         />
         <StrategySection
           title="Perfil del decisor"
-          description="Quién decide la compra dentro del punto de venta."
+          description="Quién decide la compra dentro del cliente B2B."
           fields={[
             { name: "decisor", label: "Cargo / rol del decisor" },
             { name: "criterios", label: "Qué mira al evaluar un nuevo proveedor" },

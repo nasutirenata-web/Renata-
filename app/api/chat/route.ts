@@ -1,3 +1,4 @@
+import { requireAIUser } from "@/lib/api-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
@@ -22,6 +23,8 @@ Reglas de respuesta:
 type ChatTurn = { role: "user" | "assistant"; content: string };
 
 export async function POST(req: NextRequest) {
+  const denied = await requireAIUser();
+  if (denied) return denied;
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return NextResponse.json(

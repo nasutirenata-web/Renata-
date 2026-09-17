@@ -20,9 +20,9 @@ export default function EstrategiaPage() {
         />
         <StrategySection
           title="Propuesta de valor"
-          description="Por qué un comercio debería comprarte a vos y no a otro proveedor."
+          description="Por qué una empresa debería elegir tu solución frente a otras alternativas."
           fields={[
-            { name: "problema", label: "Problema que resolvés para el punto de venta" },
+            { name: "problema", label: "Problema que resolvés para la empresa cliente" },
             { name: "valor", label: "Propuesta de valor concreta" },
             { name: "prueba", label: "Evidencia o casos que la respaldan" },
           ]}
