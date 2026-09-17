@@ -164,6 +164,32 @@ create table chat_messages (
   created_at timestamptz not null default now()
 );
 
+-- ─── Panel interno (dueños / socios de Capsule GTM) ───────────────────────
+-- Separado de `memberships`: pertenecer acá no da acceso a los datos de un
+-- cliente, solo a la vista de plataforma (workspaces, providers, uso, jobs).
+
+create table platform_admins (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table platform_admins enable row level security;
+
+create or replace function is_platform_admin()
+returns boolean
+language sql
+security definer
+stable
+as $$
+  select exists (select 1 from platform_admins where user_id = auth.uid());
+$$;
+
+create policy "platform_admins: solo lectura propia" on platform_admins
+  for select using (user_id = auth.uid());
+
+create policy "organizations: platform admins ven todo" on organizations
+  for select using (is_platform_admin());
+
 -- ─── RLS ──────────────────────────────────────────────────────────────────
 
 alter table organizations enable row level security;
