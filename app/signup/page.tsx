@@ -3,7 +3,13 @@ import { Logo } from "@/components/ui/Logo";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
-export default function SignupPage() {
+export default async function SignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-grid px-5 py-16">
       <Card className="w-full max-w-sm">
@@ -14,6 +20,11 @@ export default function SignupPage() {
         <p className="mt-1 text-sm text-muted">
           Probá el CRM, el Studio y el chat de Capsule GTM.
         </p>
+        {error && (
+          <p className="mt-4 rounded-xl border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
+            {error}
+          </p>
+        )}
         <form action="/api/auth/signup" method="post" className="mt-6 flex flex-col gap-4">
           <label className="flex flex-col gap-1.5 text-sm">
             Nombre

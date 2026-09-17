@@ -11,10 +11,21 @@ import {
   Settings,
   CalendarDays,
   Search,
+  Target,
+  Compass,
+  Tag,
+  DollarSign,
+  Radio,
 } from "lucide-react";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { section: "Build" },
+  { href: "/build/estrategia", label: "Estrategia", icon: Target },
+  { href: "/build/icp", label: "ICP", icon: Compass },
+  { href: "/build/oferta", label: "Oferta y catálogo", icon: Tag },
+  { href: "/build/precios", label: "Precios", icon: DollarSign },
+  { href: "/build/canales", label: "Canales", icon: Radio },
   { section: "Outbound" },
   { href: "/prospeccion", label: "Prospección", icon: Search },
   { section: "CRM" },
@@ -34,7 +45,7 @@ const nav = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-surface-border/60 bg-surface/40 md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-white/[0.03] backdrop-blur-xl md:flex">
         <div className="px-6 py-6">
           <Link href="/">
             <Logo />

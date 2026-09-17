@@ -164,6 +164,34 @@ create table chat_messages (
   created_at timestamptz not null default now()
 );
 
+-- ─── Alta de organización al registrarse ──────────────────────────────────
+-- Crea la organización y la membresía (owner) de forma atómica para el
+-- usuario recién autenticado. Se llama desde /api/auth/signup vía supabase.rpc().
+
+create or replace function create_organization_with_owner(org_name text)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  new_org_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'not authenticated';
+  end if;
+
+  insert into organizations (name) values (org_name) returning id into new_org_id;
+  insert into profiles (id, full_name)
+    values (auth.uid(), null)
+    on conflict (id) do nothing;
+  insert into memberships (organization_id, user_id, role)
+    values (new_org_id, auth.uid(), 'owner');
+
+  return new_org_id;
+end;
+$$;
+
 -- ─── Panel interno (dueños / socios de Capsule GTM) ───────────────────────
 -- Separado de `memberships`: pertenecer acá no da acceso a los datos de un
 -- cliente, solo a la vista de plataforma (workspaces, providers, uso, jobs).

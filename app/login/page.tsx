@@ -3,7 +3,13 @@ import { Logo } from "@/components/ui/Logo";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string; notice?: string; next?: string }>;
+}) {
+  const { error, notice, next } = await searchParams;
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-grid px-5 py-16">
       <Card className="w-full max-w-sm">
@@ -12,7 +18,18 @@ export default function LoginPage() {
         </Link>
         <h1 className="text-xl font-semibold">Ingresar</h1>
         <p className="mt-1 text-sm text-muted">Entrá con tu email y contraseña.</p>
+        {notice && (
+          <p className="mt-4 rounded-xl border border-lime/30 bg-lime/10 px-3 py-2 text-sm text-lime">
+            {notice}
+          </p>
+        )}
+        {error && (
+          <p className="mt-4 rounded-xl border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
+            {error}
+          </p>
+        )}
         <form action="/api/auth/login" method="post" className="mt-6 flex flex-col gap-4">
+          <input type="hidden" name="next" value={next ?? "/dashboard"} />
           <label className="flex flex-col gap-1.5 text-sm">
             Email
             <input

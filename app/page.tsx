@@ -1,5 +1,7 @@
 import { PublicNav } from "@/components/marketing/PublicNav";
 import { PublicFooter } from "@/components/marketing/PublicFooter";
+import { ContextWeb } from "@/components/marketing/ContextWeb";
+import { Ticker } from "@/components/marketing/Ticker";
 import { Container, Eyebrow } from "@/components/ui/Container";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -15,6 +17,8 @@ import {
   Bot,
   KanbanSquare,
   BarChart3,
+  Zap,
+  Search,
 } from "lucide-react";
 
 const problemas = [
@@ -40,34 +44,57 @@ const problemas = [
   },
 ];
 
-const capas = [
+const modulos = [
   {
     icon: Target,
-    step: "01",
-    title: "Estrategia",
-    tag: "OUTBOUND + INBOUND",
-    body: "ICP de farmacias y comercios, propuesta de valor para el punto de venta, y estructura de precios, márgenes y rentabilidad por canal.",
+    title: "Build",
+    tagline: "Encontrá tu dirección.",
+    body: "Definí a quién le vendés, qué ofrecés y a qué precio. La base común de la que parte todo lo demás.",
+    tags: ["Estrategia", "ICP", "Oferta"],
+    href: "/build/estrategia",
+    highlight: true,
   },
   {
-    icon: Database,
-    step: "02",
-    title: "Datos y CRM",
-    tag: "GESTIÓN",
-    body: "Segmentación de cuentas, catálogo comercial y un CRM propio para llevar cada empresa desde el primer contacto hasta el pedido.",
-  },
-  {
-    icon: Mail,
-    step: "03",
-    title: "Contacto multicanal",
-    tag: "OUTBOUND",
-    body: "Email de prospección y WhatsApp comercial con guiones, secuencias y criterio de cuándo pasar de uno a otro.",
+    icon: Search,
+    title: "Discover",
+    tagline: "Conectá con quien importa.",
+    body: "Farmacias, comercios y señales relevantes para construir relaciones con contexto, desde el inicio.",
+    tags: ["Empresas", "Contactos", "Señales"],
+    href: "/prospeccion",
+    highlight: false,
   },
   {
     icon: Palette,
-    step: "04",
-    title: "Contenido y estudio",
-    tag: "INBOUND",
-    body: "Propuestas comerciales, piezas para el punto de venta y diseño de imágenes para publicaciones que generan interés entrante.",
+    title: "Studio & Social",
+    tagline: "Hacé que tu voz llegue.",
+    body: "Una misma estrategia para tus contenidos, piezas creativas y mensajes de prospección.",
+    tags: ["Studio", "LinkedIn", "Calendario"],
+    href: "/studio",
+    highlight: false,
+  },
+  {
+    icon: KanbanSquare,
+    title: "Sell & Manage",
+    tagline: "Dale continuidad a cada oportunidad.",
+    body: "Campañas, tareas y pipeline conectados para que el siguiente paso tenga toda la información.",
+    tags: ["Campañas", "Pipeline", "CRM"],
+    href: "/crm/pipeline",
+    highlight: false,
+  },
+];
+
+const pasos = [
+  {
+    title: "Definí la base",
+    body: "Tu negocio, tu cliente ideal y tu propuesta de valor se convierten en el contexto común de todo el sistema.",
+  },
+  {
+    title: "Activá las conexiones",
+    body: "Relacioná estrategia, contenido y campañas con las farmacias y comercios a los que querés llegar.",
+  },
+  {
+    title: "Aprendé y avanzá",
+    body: "Conectá actividad y oportunidades para entender qué funciona y ordenar tu próximo paso.",
   },
 ];
 
@@ -149,38 +176,40 @@ export default function Home() {
       <main className="flex-1">
         {/* HERO */}
         <section className="relative overflow-hidden bg-grid bg-radial-fade">
-          <Container className="relative py-24 sm:py-32">
-            <Eyebrow>Sistema de Go-to-Market B2B</Eyebrow>
-            <h1 className="text-balance mt-5 max-w-3xl text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-6xl">
-              Convertimos tu estrategia comercial en{" "}
-              <span className="text-lime">un sistema que se puede ejecutar.</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-              Capsule GTM estructura la estrategia, los datos, el CRM y los canales de
-              contacto de una operación B2B — pensado a partir de la venta a farmacias
-              y comercios — para que tu propio equipo lo implemente de punta a punta.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <LinkButton href="/signup" size="lg">
-                Crear cuenta gratis
-                <ArrowRight className="h-4 w-4" />
-              </LinkButton>
-              <LinkButton href="#sistema" variant="secondary" size="lg">
-                Ver el sistema
-              </LinkButton>
+          <Container className="relative grid gap-12 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <Eyebrow>Un solo contexto. Todo tu GTM.</Eyebrow>
+              <h1 className="text-balance mt-5 max-w-xl text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-6xl">
+                Grandes ideas. Mejores conexiones.{" "}
+                <span className="text-lime">Más pedidos.</span>
+              </h1>
+              <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted">
+                Tu estrategia, tus datos y tus conversaciones, en una misma dirección.
+                Una forma de conectar marketing y ventas B2B — pensada a partir de la
+                venta a farmacias y comercios.
+              </p>
+              <div className="mt-9 flex flex-wrap items-center gap-5">
+                <LinkButton href="/signup" size="lg">
+                  Creá tu Capsule
+                  <ArrowRight className="h-4 w-4" />
+                </LinkButton>
+                <a
+                  href="#sistema"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-lime"
+                >
+                  Así se conecta todo
+                  <ArrowRight className="h-4 w-4 rotate-90" />
+                </a>
+              </div>
+              <p className="mt-10 text-sm text-muted-2">
+                Pensado para equipos B2B. Diseñado para trabajar juntos.
+              </p>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-2">
-              <span className="font-mono text-xs uppercase tracking-widest text-muted-2">
-                Diseñado para
-              </span>
-              <span>Distribución B2B</span>
-              <span className="h-1 w-1 rounded-full bg-muted-2" />
-              <span>Farmacias</span>
-              <span className="h-1 w-1 rounded-full bg-muted-2" />
-              <span>Comercios y puntos de venta</span>
-            </div>
+            <ContextWeb />
           </Container>
         </section>
+
+        <Ticker />
 
         {/* PROBLEMA */}
         <section className="border-t border-surface-border/60 py-20">
@@ -203,28 +232,87 @@ export default function Home() {
         {/* EL SISTEMA */}
         <section id="sistema" className="border-t border-surface-border/60 py-20">
           <Container>
-            <Eyebrow>El sistema</Eyebrow>
+            <Eyebrow>Menos fragmentación. Más contexto.</Eyebrow>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
-              Cuatro capas, un mismo sistema comercial
+              Todo parte de una idea. Todo vive en tu Capsule.
             </h2>
             <p className="mt-4 max-w-2xl text-muted">
-              Cada capa alimenta a la siguiente. La estrategia define el CRM, el CRM
-              ordena el contacto, y el contenido sostiene tanto la salida (outbound)
-              como la entrada (inbound) de oportunidades.
+              Del primer insight a la próxima conversación comercial. Cada módulo
+              aporta contexto al siguiente.
             </p>
-            <div className="mt-10 grid gap-4 lg:grid-cols-4">
-              {capas.map(({ icon: Icon, ...capa }) => (
-                <Card key={capa.title} className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-muted-2">{capa.step}</span>
-                    <Badge tone="lime">{capa.tag}</Badge>
-                  </div>
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-lime">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              {modulos.map(({ icon: Icon, ...m }) => (
+                <Card
+                  key={m.title}
+                  className={
+                    m.highlight
+                      ? "flex flex-col gap-4 border-lime/40 bg-lime/45 backdrop-blur-xl shadow-[0_0_60px_-12px_rgba(212,255,92,0.8)]"
+                      : "flex flex-col gap-4"
+                  }
+                >
+                  <div
+                    className={
+                      m.highlight
+                        ? "flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-lime"
+                        : "flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-lime"
+                    }
+                  >
                     <Icon className="h-5 w-5" />
                   </div>
-                  <CardTitle>{capa.title}</CardTitle>
-                  <CardDescription>{capa.body}</CardDescription>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-lime">{m.title}</p>
+                  <h3 className="text-2xl font-semibold text-foreground">{m.tagline}</h3>
+                  <p className={m.highlight ? "text-sm leading-relaxed text-foreground/80" : "text-sm leading-relaxed text-muted"}>
+                    {m.body}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {m.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={
+                          m.highlight
+                            ? "rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-foreground/90"
+                            : "rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-muted"
+                        }
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div
+                    className={m.highlight ? "mt-2 border-t border-white/15 pt-4" : "mt-2 border-t border-white/10 pt-4"}
+                  >
+                    <LinkButton
+                      href={m.href}
+                      variant="ghost"
+                      size="sm"
+                      className="!px-0 text-foreground hover:text-lime"
+                    >
+                      Explorar {m.title.toLowerCase()}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </LinkButton>
+                  </div>
                 </Card>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* 3 PASOS */}
+        <section className="border-t border-surface-border/60 py-20">
+          <Container>
+            <Eyebrow>Del contexto a la acción</Eyebrow>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
+              Crecer es conectar los siguientes pasos
+            </h2>
+            <div className="mt-12 grid gap-8 sm:grid-cols-3">
+              {pasos.map((paso, i) => (
+                <div key={paso.title} className="border-t border-lime/30 pt-5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-lime/30 font-mono text-xs text-lime">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-4 text-xl font-semibold text-foreground">{paso.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{paso.body}</p>
+                </div>
               ))}
             </div>
           </Container>
@@ -372,25 +460,42 @@ export default function Home() {
         {/* CTA FINAL */}
         <section className="border-t border-surface-border/60 py-20">
           <Container>
-            <Card className="flex flex-col items-start gap-6 bg-surface-2 p-10 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                  Entrá y probá la plataforma
+            <div className="relative overflow-hidden rounded-3xl border border-lime/30 bg-lime/55 backdrop-blur-xl shadow-[0_0_90px_-15px_rgba(212,255,92,0.8)] p-10 sm:p-14">
+              <Zap
+                strokeWidth={1.25}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                fill="currentColor"
+                fillOpacity={0.06}
+                className="pointer-events-none absolute -right-6 -top-10 h-64 w-64 rotate-12 text-white/10 sm:h-80 sm:w-80"
+              />
+              <div className="relative flex flex-col items-start gap-6">
+                <Eyebrow className="text-foreground/70">
+                  El siguiente paso empieza con una visión
+                </Eyebrow>
+                <h2 className="max-w-lg text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
+                  Todo tu GTM. En una <span className="italic text-lime">Capsule.</span>
                 </h2>
-                <p className="mt-2 max-w-md text-muted">
-                  Creá una cuenta para ver el CRM, el Studio y el chat en funcionamiento.
-                </p>
+                <div className="flex flex-wrap gap-3">
+                  <LinkButton
+                    href="/signup"
+                    size="lg"
+                    className="!bg-white !text-lime-foreground !border-transparent hover:!bg-white/90"
+                  >
+                    Explorá las posibilidades
+                    <ArrowRight className="h-4 w-4" />
+                  </LinkButton>
+                  <LinkButton
+                    href="/login"
+                    variant="ghost"
+                    size="lg"
+                    className="!text-foreground hover:!bg-white/10"
+                  >
+                    Ya tengo cuenta
+                  </LinkButton>
+                </div>
               </div>
-              <div className="flex gap-3">
-                <LinkButton href="/signup" size="lg">
-                  Crear cuenta
-                  <ArrowRight className="h-4 w-4" />
-                </LinkButton>
-                <LinkButton href="/login" variant="secondary" size="lg">
-                  Ya tengo cuenta
-                </LinkButton>
-              </div>
-            </Card>
+            </div>
           </Container>
         </section>
       </main>

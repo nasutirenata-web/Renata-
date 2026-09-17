@@ -11,7 +11,7 @@ const links = [
 
 export function PublicNav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-surface-border/60 bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-white/[0.03] backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <Link href="/" aria-label="Capsule GTM — inicio">
           <Logo />
