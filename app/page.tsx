@@ -19,6 +19,7 @@ import {
   BarChart3,
   Zap,
   Search,
+  Check,
 } from "lucide-react";
 
 const problemas = [
@@ -147,6 +148,45 @@ const plataforma = [
     body: "Supabase, LinkedIn, proveedores de datos y MCPs propios. Cada una muestra su estado real de conexión.",
     href: "/configuracion/integraciones",
     status: "Configurar" as const,
+  },
+];
+
+const planes = [
+  {
+    name: "Outbound",
+    tag: "Prospección activa",
+    body: "Para captar farmacias y comercios nuevos con un proceso repetible.",
+    features: [
+      "Segmentación y prospección de cuentas nuevas",
+      "Email de prospección + secuencias por WhatsApp",
+      "Scoring de leads (fit, timing, accesibilidad)",
+      "Pipeline Outbound en el CRM, de contacto a pedido",
+    ],
+    highlight: false,
+  },
+  {
+    name: "Inbound",
+    tag: "Contenido y demanda entrante",
+    body: "Para generar interés propio y convertirlo en oportunidades.",
+    features: [
+      "Studio: las 12 herramientas comerciales con IA",
+      "Diseño de imágenes con IA para publicaciones",
+      "Calendario editorial compartido con Social",
+      "Pipeline Inbound en el CRM, separado del Outbound",
+    ],
+    highlight: false,
+  },
+  {
+    name: "Outbound + Inbound",
+    tag: "Sistema completo",
+    body: "Los dos motores conectados al mismo CRM y a la misma estrategia.",
+    features: [
+      "Todo lo de Outbound e Inbound",
+      "Build: Estrategia, ICP, Oferta, Precios y Canales",
+      "Chat asistente y panel de Configuración/Integraciones",
+      "Prioridad para conectar Supabase, LinkedIn y proveedores de datos",
+    ],
+    highlight: true,
   },
 ];
 
@@ -427,6 +467,63 @@ export default function Home() {
                   interés propio, con su propio pipeline dentro del mismo CRM.
                 </CardDescription>
               </Card>
+            </div>
+          </Container>
+        </section>
+
+        {/* PRECIOS Y PLANES */}
+        <section id="precios" className="border-t border-surface-border/60 py-20">
+          <Container>
+            <Eyebrow>Precios y planes</Eyebrow>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
+              Elegí el motor que necesitás activar primero
+            </h2>
+            <p className="mt-4 max-w-2xl text-muted">
+              Los tres planes comparten el mismo CRM. Podés empezar por uno y sumar el
+              otro cuando lo necesites, sin duplicar datos.
+            </p>
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {planes.map((plan) => (
+                <Card
+                  key={plan.name}
+                  className={
+                    plan.highlight
+                      ? "flex flex-col gap-5 border-lime/40 bg-lime/45 backdrop-blur-xl shadow-[0_0_60px_-12px_rgba(212,255,92,0.8)]"
+                      : "flex flex-col gap-5"
+                  }
+                >
+                  <div>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-lime">
+                      {plan.tag}
+                    </p>
+                    <h3 className="mt-2 text-2xl font-semibold text-foreground">{plan.name}</h3>
+                    <p className="mt-2 text-sm text-muted">{plan.body}</p>
+                  </div>
+                  <div className="border-t border-white/10 pt-4">
+                    <span className="text-3xl font-semibold text-foreground">A definir</span>
+                    <p className="mt-1 text-xs text-muted-2">
+                      Precio a coordinar según alcance. Todavía no hay tarifas publicadas.
+                    </p>
+                  </div>
+                  <ul className="flex flex-1 flex-col gap-2.5">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5 text-sm text-foreground/85">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-lime" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <LinkButton
+                    href="/signup"
+                    variant={plan.highlight ? "primary" : "secondary"}
+                    size="sm"
+                    className="w-fit"
+                  >
+                    Hablemos
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </LinkButton>
+                </Card>
+              ))}
             </div>
           </Container>
         </section>

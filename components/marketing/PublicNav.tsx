@@ -5,8 +5,8 @@ import { LinkButton } from "@/components/ui/Button";
 const links = [
   { href: "#sistema", label: "El sistema" },
   { href: "#incluye", label: "Qué incluye" },
-  { href: "#proceso", label: "Proceso" },
   { href: "#plataforma", label: "Plataforma" },
+  { href: "#precios", label: "Precios" },
 ];
 
 export function PublicNav() {
