@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/app/PageHeader";
 import { ToolRunner } from "@/components/studio/ToolRunner";
+import { LeadScoringTool } from "@/components/studio/LeadScoringTool";
 import { getSkillTool, skillTools } from "@/lib/skills-registry";
 
 export function generateStaticParams() {
@@ -19,7 +20,7 @@ export default async function StudioToolPage({
   return (
     <>
       <PageHeader title={tool.title} description={tool.description} />
-      <ToolRunner tool={tool} />
+      {tool.slug === "scoring-leads" ? <LeadScoringTool /> : <ToolRunner tool={tool} />}
     </>
   );
 }

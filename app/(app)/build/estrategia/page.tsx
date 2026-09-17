@@ -20,7 +20,7 @@ export default function EstrategiaPage() {
         />
         <StrategySection
           title="Propuesta de valor"
-          description="Por qué una farmacia o comercio debería comprarte a vos y no a otro proveedor."
+          description="Por qué un comercio debería comprarte a vos y no a otro proveedor."
           fields={[
             { name: "problema", label: "Problema que resolvés para el punto de venta" },
             { name: "valor", label: "Propuesta de valor concreta" },

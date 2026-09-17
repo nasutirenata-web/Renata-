@@ -46,6 +46,8 @@ create table companies (
   updated_at timestamptz not null default now()
 );
 
+create type lead_temperature as enum ('cold', 'warm', 'hot');
+
 create table contacts (
   id uuid primary key default gen_random_uuid(),
   organization_id uuid not null references organizations (id) on delete cascade,
@@ -55,6 +57,8 @@ create table contacts (
   email text,
   phone text,
   preferred_channel text, -- 'email' | 'whatsapp' | 'linkedin'
+  origin gtm_origin not null default 'outbound',
+  temperature lead_temperature not null default 'cold',
   created_by uuid references auth.users (id),
   created_at timestamptz not null default now()
 );

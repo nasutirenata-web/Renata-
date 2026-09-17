@@ -25,7 +25,7 @@ import {
 const problemas = [
   {
     title: "El ICP no está escrito en ningún lado",
-    body: "Se sabe intuitivamente qué farmacia o comercio conviene, pero nadie lo puso en un documento que el equipo pueda seguir.",
+    body: "Se sabe intuitivamente qué cliente conviene, pero nadie lo puso en un documento que el equipo pueda seguir.",
   },
   {
     title: "La prospección depende de una persona",
@@ -59,7 +59,7 @@ const modulos = [
     icon: Search,
     title: "Discover",
     tagline: "Conectá con quien importa.",
-    body: "Farmacias, comercios y señales relevantes para construir relaciones con contexto, desde el inicio.",
+    body: "Empresas, contactos y señales relevantes para construir relaciones con contexto, desde el inicio.",
     tags: ["Empresas", "Contactos", "Señales"],
     href: "/prospeccion",
     highlight: false,
@@ -91,7 +91,7 @@ const pasos = [
   },
   {
     title: "Activá las conexiones",
-    body: "Relacioná estrategia, contenido y campañas con las farmacias y comercios a los que querés llegar.",
+    body: "Relacioná estrategia, contenido y campañas con los comercios a los que querés llegar.",
   },
   {
     title: "Aprendé y avanzá",
@@ -101,7 +101,7 @@ const pasos = [
 
 const incluye = [
   "Definición de la estrategia B2B",
-  "Target y segmentación de farmacias y comercios",
+  "Target y segmentación de comercios",
   "Propuesta comercial para el punto de venta",
   "Estructura de precios, márgenes y rentabilidad",
   "Catálogo y presentación comercial",
@@ -155,7 +155,7 @@ const planes = [
   {
     name: "Outbound",
     tag: "Prospección activa",
-    body: "Para captar farmacias y comercios nuevos con un proceso repetible.",
+    body: "Para captar comercios nuevos con un proceso repetible.",
     features: [
       "Segmentación y prospección de cuentas nuevas",
       "Email de prospección + secuencias por WhatsApp",
@@ -204,8 +204,8 @@ const faqs = [
     a: "Cada módulo muestra honestamente si está conectado, pendiente de configuración o en modo demo. Nunca se simula un envío, una publicación o un dato que no ocurrió de verdad.",
   },
   {
-    q: "¿Sirve solo para farmacias y comercios?",
-    a: "El sistema se diseñó a partir de ese caso concreto de distribución B2B, pero la estructura (estrategia, CRM, canales, contenido) aplica a cualquier operación comercial B2B.",
+    q: "¿Sirve solo para un tipo de negocio en particular?",
+    a: "No. La estructura (estrategia, CRM, canales, contenido) aplica a cualquier operación comercial B2B que venda a comercios o puntos de venta.",
   },
 ];
 
@@ -226,7 +226,7 @@ export default function Home() {
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted">
                 Tu estrategia, tus datos y tus conversaciones, en una misma dirección.
                 Una forma de conectar marketing y ventas B2B — pensada a partir de la
-                venta a farmacias y comercios.
+                venta a comercios y puntos de venta.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-5">
                 <LinkButton href="/signup" size="lg">
@@ -453,7 +453,7 @@ export default function Home() {
                   <CardTitle>Outbound</CardTitle>
                 </div>
                 <CardDescription className="mt-3">
-                  Prospección activa: segmentación de farmacias y comercios, email
+                  Prospección activa: segmentación de comercios nuevos, email
                   frío, secuencias por WhatsApp y seguimiento hasta agendar reunión.
                 </CardDescription>
               </Card>

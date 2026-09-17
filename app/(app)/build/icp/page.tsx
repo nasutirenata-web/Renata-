@@ -6,14 +6,14 @@ export default function IcpPage() {
     <>
       <PageHeader
         title="Cliente ideal · ICP"
-        description="A quién le vendés y cómo se segmentan las farmacias y comercios."
+        description="A quién le vendés y cómo se segmentan tus comercios objetivo."
       />
       <div className="flex flex-col gap-6 p-8">
         <StrategySection
           title="Segmentación"
           description="Los criterios que definen una cuenta objetivo."
           fields={[
-            { name: "segmento", label: "Segmentos (ej: farmacia de barrio, cadena, comercio especializado)" },
+            { name: "segmento", label: "Segmentos (ej: comercio de barrio, cadena, negocio especializado)" },
             { name: "geografia", label: "Geografía / zona de cobertura" },
             { name: "tamano", label: "Tamaño o volumen estimado de compra" },
           ]}

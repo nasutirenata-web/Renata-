@@ -11,7 +11,7 @@ export default function OfertaPage() {
       <div className="flex flex-col gap-6 p-8">
         <StrategySection
           title="Propuesta comercial"
-          description="Qué se ofrece concretamente a una farmacia o comercio."
+          description="Qué se ofrece concretamente a un comercio."
           fields={[
             { name: "oferta", label: "Descripción de la oferta" },
             { name: "condiciones", label: "Condiciones comerciales (mínimos, plazos, logística)" },

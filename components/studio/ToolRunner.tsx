@@ -5,7 +5,7 @@ import { type SkillTool } from "@/lib/skills-registry";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { Sparkles, Copy, Check } from "lucide-react";
+import { Sparkles, Copy, Check, ImageIcon, Download } from "lucide-react";
 import { markdownLiteToHtml } from "@/lib/utils";
 
 export function ToolRunner({ tool }: { tool: SkillTool }) {
@@ -14,6 +14,9 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
   const [notice, setNotice] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageNotice, setImageNotice] = useState<string | null>(null);
 
   async function handleGenerate() {
     setLoading(true);
@@ -44,6 +47,38 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     });
+  }
+
+  async function handleGenerateImage() {
+    if (!result) return;
+    setImageLoading(true);
+    setImageNotice(null);
+    setImage(null);
+    try {
+      const res = await fetch("/api/ai/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: result, aspectRatio: "1:1" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setImageNotice(data.message ?? "No se pudo generar la imagen.");
+        return;
+      }
+      setImage(data.dataUrl);
+    } catch {
+      setImageNotice("No se pudo conectar con el servidor de IA.");
+    } finally {
+      setImageLoading(false);
+    }
+  }
+
+  function handleDownloadImage() {
+    if (!image) return;
+    const link = document.createElement("a");
+    link.download = "capsule-gtm-brief.jpg";
+    link.href = image;
+    link.click();
   }
 
   return (
@@ -116,6 +151,36 @@ export function ToolRunner({ tool }: { tool: SkillTool }) {
               className="whitespace-pre-wrap rounded-2xl border border-surface-border bg-surface-2 p-4 font-sans text-sm leading-relaxed text-foreground/90"
               dangerouslySetInnerHTML={{ __html: markdownLiteToHtml(result) }}
             />
+          )}
+          {result && tool.slug === "briefing-diseno" && (
+            <div className="mt-4 flex flex-col gap-3">
+              <Button
+                onClick={handleGenerateImage}
+                disabled={imageLoading}
+                variant="secondary"
+                size="sm"
+                className="w-fit"
+              >
+                <ImageIcon className="h-4 w-4" />
+                {imageLoading ? "Generando imagen…" : "Generar imagen con este brief"}
+              </Button>
+              {imageNotice && (
+                <p className="text-xs text-warning">{imageNotice}</p>
+              )}
+              {image && (
+                <div className="flex flex-col items-start gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={image}
+                    alt="Imagen generada a partir del brief"
+                    className="max-h-[50vh] w-auto max-w-full rounded-2xl border border-surface-border shadow-2xl"
+                  />
+                  <Button size="sm" variant="ghost" onClick={handleDownloadImage}>
+                    <Download className="h-4 w-4" /> Descargar
+                  </Button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </Card>
