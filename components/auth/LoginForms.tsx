@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 
-export function LoginForms({ next }: { next: string }) {
+export function LoginForms({ next, defaultEmail }: { next: string; defaultEmail?: string }) {
   return (
     <form action="/api/auth/login" method="post" className="mt-6 flex flex-col gap-4">
       <input type="hidden" name="next" value={next} />
@@ -12,6 +12,7 @@ export function LoginForms({ next }: { next: string }) {
           type="email"
           name="email"
           required
+          defaultValue={defaultEmail}
           className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
           placeholder="vos@tuempresa.com"
         />

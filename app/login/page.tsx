@@ -5,9 +5,9 @@ import { LoginForms } from "@/components/auth/LoginForms";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; notice?: string; next?: string }>;
+  searchParams: Promise<{ error?: string; notice?: string; next?: string; email?: string }>;
 }) {
-  const { error, notice, next } = await searchParams;
+  const { error, notice, next, email } = await searchParams;
   const resolvedNext = next ?? "/dashboard";
 
   return (
@@ -40,7 +40,7 @@ export default async function LoginPage({
                   {error}
                 </p>
               )}
-              <LoginForms next={resolvedNext} />
+              <LoginForms next={resolvedNext} defaultEmail={email} />
             </div>
           </div>
         </div>

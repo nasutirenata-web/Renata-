@@ -25,6 +25,12 @@ export async function POST(req: NextRequest) {
   });
 
   if (error) {
+    if (error.message.toLowerCase().includes("already registered")) {
+      const url = new URL("/login", origin);
+      url.searchParams.set("notice", "Ese email ya tiene una cuenta. Iniciá sesión con tu contraseña.");
+      url.searchParams.set("email", email);
+      return NextResponse.redirect(url, { status: 303 });
+    }
     const url = new URL("/signup", origin);
     url.searchParams.set("error", error.message);
     return NextResponse.redirect(url, { status: 303 });
