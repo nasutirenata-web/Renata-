@@ -29,7 +29,7 @@ export default async function LoginPage({
                 <span className="text-lime">❯</span> iniciando sesión
               </p>
               <h1 className="mt-2 text-xl font-semibold">Ingresar</h1>
-              <p className="mt-1 text-sm text-muted">Lanzá tu sesión: con un enlace de acceso o con contraseña.</p>
+              <p className="mt-1 text-sm text-muted">Lanzá tu sesión: con un código de acceso o con contraseña.</p>
               {notice && (
                 <p className="mt-4 rounded-xl border border-lime/30 bg-lime/10 px-3 py-2 text-sm text-lime">
                   {notice}
