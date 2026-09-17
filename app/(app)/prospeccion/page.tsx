@@ -46,7 +46,7 @@ export default async function ProspeccionPage() {
         <ProspectSearch />
 
         <div>
-          <p className="mb-4 font-display text-xs uppercase tracking-[0.2em] text-muted-2">
+          <p className="mb-4 font-logo text-xs uppercase tracking-[0.2em] text-muted-2">
             Resultado de cada proceso terminado
           </p>
           {!ctx || activities.length === 0 ? (
@@ -70,7 +70,7 @@ export default async function ProspeccionPage() {
         </div>
 
         <div>
-          <p className="mb-4 font-display text-xs uppercase tracking-[0.2em] text-muted-2">
+          <p className="mb-4 font-logo text-xs uppercase tracking-[0.2em] text-muted-2">
             Fuentes de datos
           </p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

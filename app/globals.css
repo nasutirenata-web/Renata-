@@ -40,6 +40,7 @@
   --font-sans: var(--font-dm-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-manrope);
+  --font-logo: var(--font-poppins);
 }
 
 html { color-scheme: light; scroll-behavior: smooth; scroll-padding-top: 110px; }

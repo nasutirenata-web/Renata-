@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Geist_Mono, Manrope } from "next/font/google";
+import { DM_Sans, Geist_Mono, Manrope, Poppins } from "next/font/google";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -17,6 +17,12 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Capsule GTM — Sistema de Go-to-Market B2B",
   description:
@@ -29,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${dmSans.variable} ${geistMono.variable} ${manrope.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${geistMono.variable} ${manrope.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}

@@ -35,7 +35,7 @@ export default function StudioPage() {
       <div className="flex flex-col gap-10 p-8">
         <div>
           <div className="mb-4 flex items-center gap-2">
-            <p className="font-display text-xs uppercase tracking-[0.2em] text-brand">Outbound</p>
+            <p className="font-logo text-xs uppercase tracking-[0.2em] text-brand">Outbound</p>
             <span className="text-xs text-muted-2">Prospección y captación</span>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -47,7 +47,7 @@ export default function StudioPage() {
 
         <div>
           <div className="mb-4 flex items-center gap-2">
-            <p className="font-display text-xs uppercase tracking-[0.2em] text-brand">Inbound</p>
+            <p className="font-logo text-xs uppercase tracking-[0.2em] text-brand">Inbound</p>
             <span className="text-xs text-muted-2">Contenido y demanda entrante</span>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
