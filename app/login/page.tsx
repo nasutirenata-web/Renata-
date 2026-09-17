@@ -11,10 +11,10 @@ export default async function LoginPage({
   const { error, notice, next } = await searchParams;
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-grid px-5 py-16">
+    <main className="flex min-h-screen items-center justify-center bg-background px-5 py-16">
       <Card className="w-full max-w-sm">
-        <Link href="/" className="mb-8 inline-flex">
-          <Logo />
+        <Link href="/" className="mb-6 inline-flex">
+          <Logo height={30} />
         </Link>
         <h1 className="text-xl font-semibold">Ingresar</h1>
         <p className="mt-1 text-sm text-muted">Entrá con tu email y contraseña.</p>

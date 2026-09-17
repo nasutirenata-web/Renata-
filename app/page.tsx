@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PublicNav } from "@/components/marketing/PublicNav";
 import { PublicFooter } from "@/components/marketing/PublicFooter";
 import { ContextWeb } from "@/components/marketing/ContextWeb";
+import { TerminalDemo } from "@/components/marketing/TerminalDemo";
 import { Ticker } from "@/components/marketing/Ticker";
 import { Container, Eyebrow } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
@@ -35,6 +36,7 @@ export default function Home() {
         <p className="mt-6 text-xs text-muted-2">Para empresas de marketing, inteligencia artificial y tecnología.</p>
       </div><ContextWeb/>
     </Container>
+    <Container className="pb-8"><TerminalDemo/></Container>
     <Container><Ticker/></Container>
     <section id="sistema" className="capsule-section"><Container>
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><Eyebrow className="!text-muted">Menos fragmentación. Más contexto.</Eyebrow><h2 className="capsule-heading mt-5">Todo parte de una idea.<br/>Todo vive en <span className="text-lime">tu Capsule.</span></h2></div><p className="max-w-sm text-muted">Del primer insight a la próxima conversación comercial. Cada área aporta contexto a la siguiente.</p></div>

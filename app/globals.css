@@ -62,6 +62,12 @@ h1,h2,h3 { font-family: var(--font-manrope), sans-serif; }
 .context-ring.outer { width:90%; height:290px; transform:translate(-50%,-50%) rotate(-25deg); }
 .context-node { position:absolute; display:flex; align-items:center; gap:9px; padding:11px 14px; border-radius:14px; border:1px solid #59614d; background:#353b30e6; backdrop-filter:blur(12px); font-size:12px; box-shadow:0 6px 20px #0002; }
 .context-node svg { width:18px; height:18px; color:var(--lime); }
+.capsule-terminal { border-radius:24px; border:1px solid #4c5144; background:#1a1c18; overflow:hidden; box-shadow:0 30px 80px -30px #00000080; }
+.capsule-terminal-bar { display:flex; align-items:center; gap:7px; padding:13px 18px; border-bottom:1px solid #33362e; background:#212319; }
+.capsule-terminal-dot { width:10px; height:10px; border-radius:50%; opacity:.85; }
+.capsule-terminal-body { min-height:118px; padding:20px 22px 24px; font-family:var(--font-geist-mono,ui-monospace,monospace); }
+.capsule-terminal-cursor { display:inline-block; width:7px; height:15px; margin-left:2px; background:var(--lime); vertical-align:middle; animation:capsule-blink 1s step-end infinite; }
+@keyframes capsule-blink { 50% { opacity:0; } }
 @media(max-width:767px) { .capsule-hero { padding-block:36px 45px; } .capsule-section { padding-top:60px; } .context-node { padding:10px; font-size:11px; } }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } }
 
