@@ -48,7 +48,7 @@ export function SignupForm() {
             passwordMode === "generated" ? "bg-lime text-lime-foreground" : "text-muted hover:text-foreground"
           }`}
         >
-          Palabra generada
+          Palabra clave
         </button>
         <button
           type="button"
