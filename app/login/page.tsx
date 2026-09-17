@@ -37,7 +37,7 @@ export default async function LoginPage({
               name="email"
               required
               className="rounded-xl border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-lime"
-              placeholder="vos@varowa.com"
+              placeholder="vos@tuempresa.com"
             />
           </label>
           <label className="flex flex-col gap-1.5 text-sm">
