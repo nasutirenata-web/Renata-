@@ -6,14 +6,7 @@ import { TemperaturePicker } from "@/components/crm/TemperaturePicker";
 import { getOrgContext } from "@/lib/supabase/org";
 import { formatDateTime } from "@/lib/utils";
 import { Users, ClipboardList } from "lucide-react";
-          <section aria-label="Leads y cualificación" className="space-y-3">
-            <div className="flex justify-between px-4 text-xs text-muted"><span>Lead / cargo</span><span>Cualificación</span></div>
-            {contacts.map(c=><article key={c.id} className="lead-row grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl p-3 sm:p-4">
-              <div className="flex min-w-0 items-center gap-3"><span className="lead-avatar hidden h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-brand sm:flex" aria-hidden="true">{c.full_name.slice(0,2).toUpperCase()}</span><div className="min-w-0"><p className="break-words text-sm font-semibold">{c.full_name}</p><p className="mt-1 break-words text-xs text-muted">{c.role_title??"Sin cargo asignado"}</p></div></div>
-              <TemperaturePicker contactId={c.id} value={c.temperature}/>
-            </article>)}
-            <div className="glass-panel rounded-2xl px-4 py-3"><TemperatureLegend/></div>
-          </section>
+
 export default async function ContactosPage({
   searchParams,
 }: {
