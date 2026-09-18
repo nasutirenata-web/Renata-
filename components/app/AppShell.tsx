@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { LayoutDashboard, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, SlidersHorizontal, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, ChevronDown, ChevronRight } from "lucide-react";
+import { LayoutDashboard, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, SlidersHorizontal, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, MessagesSquare, ChevronDown, ChevronRight } from "lucide-react";
 
 const groups = [
   { id:"build", label:"Estrategia", caption:"Build", tone:"violet", icon:Target, items:[
@@ -41,7 +41,7 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
   const currentGroup=groups.find(g=>g.items.some(i=>pathname===i.href || (i.href!=="/crm" && pathname.startsWith(i.href+"/"))));
   const allItems=groups.flatMap(g=>g.items);
   const current=allItems.find(i=>i.href===pathname);
-  const pageName=current?.label ?? (pathname==="/dashboard"?"Dashboard":pathname==="/chat"?"Asistente GTM":pathname.startsWith("/configuracion")?"Configuración":"Capsule GTM");
+  const pageName=current?.label ?? (pathname==="/dashboard"?"Dashboard":pathname==="/chat"?"Asistente GTM":pathname==="/mensajes"?"Mensajes":pathname.startsWith("/configuracion")?"Configuración":"Capsule GTM");
   const normalize=(text:string)=>text.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
   const filtered=groups.map(g=>({...g,items:g.items.filter(i=>normalize(g.label+" "+i.label+" "+g.caption).includes(normalize(query)))})).filter(g=>g.items.length);
   const closeMenu=()=>setMobileOpen(false);
@@ -71,6 +71,7 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
         {filtered.length===0&&<p className="px-3 py-4 text-xs text-muted" role="status">No hay secciones con ese nombre.</p>}
       </div>
       <div className="mt-5 space-y-1 border-t border-white/80 pt-4">
+        <Link href="/mensajes" onClick={closeMenu} aria-current={pathname==="/mensajes"?"page":undefined} className={"workspace-shortcut "+(pathname==="/mensajes"?"capsule-nav-active":"")}><MessagesSquare className="h-4 w-4"/>Mensajes</Link>
         <Link href="/chat" onClick={closeMenu} aria-current={pathname==="/chat"?"page":undefined} className={"workspace-shortcut "+(pathname==="/chat"?"capsule-nav-active":"")}><Bot className="h-4 w-4"/>Asistente GTM</Link>
         <Link href="/configuracion/integraciones" onClick={closeMenu} aria-current={pathname.startsWith("/configuracion")?"page":undefined} className={"workspace-shortcut "+(pathname.startsWith("/configuracion")?"capsule-nav-active":"")}><Settings className="h-4 w-4"/>Configuración</Link>
         {hasSession&&<form action="/api/auth/logout" method="post"><button className="workspace-shortcut w-full text-muted"><LogOut className="h-4 w-4"/>Cerrar sesión</button></form>}
