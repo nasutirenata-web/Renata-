@@ -93,13 +93,13 @@ export default async function ContactosPage({
             ))}
             <div className="glass-panel flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-muted-2">
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-muted-2" /> Frío
+                <span className="h-2.5 w-2.5 rounded-full bg-temp-cold" /> Frío
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-aqua-bright" /> Tibio
+                <span className="h-2.5 w-2.5 rounded-full bg-temp-warm" /> Tibio
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-brand-dim" /> Caliente
+                <span className="h-2.5 w-2.5 rounded-full bg-temp-hot" /> Caliente
               </span>
             </div>
           </div>

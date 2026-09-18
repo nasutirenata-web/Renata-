@@ -17,6 +17,9 @@
   --danger: #ad294e;
   --warning: #865416;
   --ok: #086c61;
+  --temp-hot: #a88ae9;
+  --temp-warm: #6dd9d1;
+  --temp-cold: #d2c5ee;
   --glass-shadow: inset 0 1px 2px #fffffff2, inset 0 -1px 1px #ffffffa6, 0 16px 38px -22px #43356f60, 0 2px 5px #ffffff50;
 }
 
@@ -37,6 +40,9 @@
   --color-danger: var(--danger);
   --color-warning: var(--warning);
   --color-ok: var(--ok);
+  --color-temp-hot: var(--temp-hot);
+  --color-temp-warm: var(--temp-warm);
+  --color-temp-cold: var(--temp-cold);
   --font-sans: var(--font-dm-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-manrope);
@@ -111,9 +117,13 @@ input[type="checkbox"],input[type="radio"] { accent-color:var(--brand); }
 .temperature-glass { position:relative; display:flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; border:1px solid #ffffffda; box-shadow:inset 0 2px 3px #fffffff0,inset 0 -2px 3px #ffffff75,0 5px 8px -5px #41375b70; transition:transform .15s,box-shadow .15s; }
 .temperature-glass::after { content:""; position:absolute; left:22%; right:22%; bottom:2px; height:1px; border-radius:100%; background:#ffffffd9; box-shadow:0 0 3px #fff; }
 .temperature-glass svg { width:11px; height:11px; }
-.temperature-hot { background:linear-gradient(160deg,#c9aef8ca,#8b5eeadf 45%,#5b32a8e0); color:#fff; }
-.temperature-warm { background:linear-gradient(160deg,#a9f2ebca,#4fd9cfdf 45%,#0e8f88e0); color:#fff; }
-.temperature-cold { background:linear-gradient(160deg,#e2e1e9ca,#a9a7bcdf 45%,#78778ce0); color:#fff; }
+.temperature-hot { background:linear-gradient(160deg,#c9b4f3,var(--temp-hot) 55%,#9a78e0); color:#fff; }
+.temperature-warm { background:linear-gradient(160deg,#a6ece6,var(--temp-warm) 55%,#4fc9c0); color:#0d5f5a; }
+.temperature-cold { background:linear-gradient(160deg,#ebe3f8,var(--temp-cold) 55%,#bfaee3); color:#5b4f7a; }
+.temp-dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle; box-shadow:inset 0 1px 2px #ffffffe0,0 1px 2px #62527b30; }
+.temp-dot-hot { background:var(--temp-hot); }
+.temp-dot-warm { background:var(--temp-warm); }
+.temp-dot-cold { background:var(--temp-cold); }
 .temperature-glass[data-selected=true] { box-shadow:inset 0 2px 3px #fff,inset 0 -2px 3px #ffffff70,0 0 0 2px #6558799c,0 6px 12px -5px #61587560; }
 .temperature-choice:hover:not(:disabled) .temperature-glass { transform:translateY(-2px); }
 .temperature-swatch { width:10px; height:10px; border-radius:50%; }

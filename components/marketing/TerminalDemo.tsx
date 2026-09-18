@@ -9,7 +9,7 @@ const SCENES = [
   },
   {
     prompt: "Calificá estos 12 contactos nuevos por temperatura",
-    response: "🟣 4 calientes · 🟢 5 tibios · ⚪ 3 fríos\nPriorizá los 4 calientes: mencionaron presupuesto activo esta semana.",
+    response: "{hot}4 calientes · {warm}5 tibios · {cold}3 fríos\nPriorizá los 4 calientes: mencionaron presupuesto activo esta semana.",
   },
   {
     prompt: "Armá el argumentario para \"ya tenemos un proveedor\"",
@@ -76,7 +76,16 @@ export function TerminalDemo() {
         {showResponse && (
           <p className="mt-4 flex items-start gap-2 whitespace-pre-line text-[13px] leading-relaxed text-muted sm:text-sm">
             <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
-            <span>{scene.response}</span>
+            <span>
+              {scene.response.split(/(\{hot\}|\{warm\}|\{cold\})/).map((part, i) => {
+                const match = part.match(/^\{(hot|warm|cold)\}$/);
+                return match ? (
+                  <span key={i} className={"temp-dot temp-dot-" + match[1]} aria-hidden="true" />
+                ) : (
+                  part
+                );
+              })}
+            </span>
           </p>
         )}
       </div>
