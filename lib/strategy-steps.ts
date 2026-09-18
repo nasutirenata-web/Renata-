@@ -1,0 +1,158 @@
+export type StrategyField = { name: string; label: string; placeholder?: string; rows?: number };
+export type StrategySectionDef = { title: string; description: string; fields: StrategyField[] };
+export type StrategyArea = {
+  id: string;
+  pathname: string;
+  label: string;
+  description: string;
+  sections: StrategySectionDef[];
+};
+
+export const strategyAreas: StrategyArea[] = [
+  {
+    id: "estrategia",
+    pathname: "/build/estrategia",
+    label: "Estrategia B2B",
+    description: "La base común: por qué existe el negocio, para quién, y qué lo hace ganar.",
+    sections: [
+      {
+        title: "Business Profile",
+        description: "Qué hace la empresa, en qué mercado compite y con qué diferenciales.",
+        fields: [
+          { name: "que_hace", label: "Qué hace la empresa (en una frase)" },
+          { name: "mercado", label: "Mercado y geografía" },
+          { name: "diferenciales", label: "Diferenciales frente a la competencia" },
+        ],
+      },
+      {
+        title: "Propuesta de valor",
+        description: "Por qué una empresa debería elegir tu solución frente a otras alternativas.",
+        fields: [
+          { name: "problema", label: "Problema que resolvés para la empresa cliente" },
+          { name: "valor", label: "Propuesta de valor concreta" },
+          { name: "prueba", label: "Evidencia o casos que la respaldan" },
+        ],
+      },
+      {
+        title: "Objetivo comercial",
+        description: "A dónde tiene que llegar el sistema comercial este semestre.",
+        fields: [{ name: "objetivo", label: "Objetivo principal y métrica de éxito" }],
+      },
+    ],
+  },
+  {
+    id: "icp",
+    pathname: "/build/icp",
+    label: "Cliente ideal · ICP",
+    description: "A quién le vendés y cómo se segmentan tus comercios objetivo.",
+    sections: [
+      {
+        title: "Segmentación",
+        description: "Los criterios que definen una cuenta objetivo.",
+        fields: [
+          { name: "segmento", label: "Segmentos (ej: comercio de barrio, cadena, negocio especializado)" },
+          { name: "geografia", label: "Geografía / zona de cobertura" },
+          { name: "tamano", label: "Tamaño o volumen estimado de compra" },
+        ],
+      },
+      {
+        title: "Perfil del decisor",
+        description: "Quién decide la compra dentro del cliente B2B.",
+        fields: [
+          { name: "decisor", label: "Cargo / rol del decisor" },
+          { name: "criterios", label: "Qué mira al evaluar un nuevo proveedor" },
+        ],
+      },
+      {
+        title: "Señales de fit",
+        description: "Qué hace que una cuenta sea prioritaria para prospectar ahora.",
+        fields: [{ name: "senales", label: "Señales de buen fit / buen timing" }],
+      },
+    ],
+  },
+  {
+    id: "oferta",
+    pathname: "/build/oferta",
+    label: "Oferta y catálogo",
+    description: "La propuesta comercial para el cliente B2B y su presentación.",
+    sections: [
+      {
+        title: "Propuesta comercial",
+        description: "Qué se ofrece concretamente a un comercio.",
+        fields: [
+          { name: "oferta", label: "Descripción de la oferta" },
+          { name: "condiciones", label: "Condiciones comerciales (mínimos, plazos, logística)" },
+        ],
+      },
+      {
+        title: "Catálogo / presentación comercial",
+        description: "Los productos o líneas que se muestran en el primer contacto.",
+        fields: [
+          {
+            name: "catalogo",
+            label: "Listado de productos / líneas, con lo más relevante de cada una",
+            rows: 5,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "precios",
+    pathname: "/build/precios",
+    label: "Precios y rentabilidad",
+    description: "Estructura de precios, márgenes y rentabilidad por canal.",
+    sections: [
+      {
+        title: "Estructura de precios",
+        description: "Cómo se estructura el precio de tu servicio, proyecto o suscripción.",
+        fields: [
+          { name: "lista", label: "Precios / rangos por servicio, solución o suscripción", rows: 4 },
+          { name: "descuentos", label: "Descuentos por volumen o condición" },
+        ],
+      },
+      {
+        title: "Márgenes y rentabilidad",
+        description: "Qué margen deja cada canal y dónde está el piso aceptable.",
+        fields: [
+          { name: "margen", label: "Margen objetivo por canal" },
+          { name: "piso", label: "Piso de precio / margen mínimo aceptable" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "canales",
+    pathname: "/build/canales",
+    label: "Canales",
+    description: "Estrategia de contacto por email y WhatsApp, y canales de venta.",
+    sections: [
+      {
+        title: "Canal de email",
+        description: "Cómo y cuándo se usa el email en la prospección.",
+        fields: [{ name: "email", label: "Rol del email en la secuencia de contacto" }],
+      },
+      {
+        title: "Canal de WhatsApp",
+        description: "Cuándo pasar de email a WhatsApp, y qué tono usar ahí.",
+        fields: [
+          { name: "whatsapp_uso", label: "Cuándo se usa WhatsApp (momento del funnel)" },
+          { name: "whatsapp_tono", label: "Tono y formato de los mensajes por WhatsApp" },
+        ],
+      },
+      {
+        title: "Canales de venta",
+        description: "Los canales por los que efectivamente se concreta una venta.",
+        fields: [{ name: "canales_venta", label: "Canales de venta (directo, distribuidor, showroom, etc.)" }],
+      },
+    ],
+  },
+];
+
+export function sectionKey(pathname: string, title: string) {
+  return pathname + ":" + title;
+}
+
+export const allSteps = strategyAreas.flatMap((area) =>
+  area.sections.map((section) => ({ area, section, key: sectionKey(area.pathname, section.title) })),
+);

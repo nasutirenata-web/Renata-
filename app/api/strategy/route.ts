@@ -5,7 +5,13 @@ export async function GET(req: NextRequest) {
   const ctx = await getOrgContext();
   if (!ctx) return NextResponse.json({error:"Iniciá sesión para recuperar los borradores de tu organización."},{status:401});
   const key=req.nextUrl.searchParams.get("section");
-  if (!key || key.length>200) return NextResponse.json({error:"Sección inválida."},{status:400});
+  if (!key) {
+    const {data,error}=await ctx.supabase.from("strategy_drafts").select("section_key,values,updated_at").eq("organization_id",ctx.orgId);
+    if(error)return NextResponse.json({error:"No se pudo recuperar los borradores. Reintentá."},{status:500});
+    const sections=Object.fromEntries((data??[]).map(d=>[d.section_key,{values:d.values,updatedAt:d.updated_at}]));
+    return NextResponse.json({sections});
+  }
+  if (key.length>200) return NextResponse.json({error:"Sección inválida."},{status:400});
   const {data,error}=await ctx.supabase.from("strategy_drafts").select("values,updated_at").eq("organization_id",ctx.orgId).eq("section_key",key).maybeSingle();
   if(error)return NextResponse.json({error:"No se pudo recuperar el borrador. Reintentá."},{status:500});
   return NextResponse.json({values:data?.values??{},updatedAt:data?.updated_at??null});

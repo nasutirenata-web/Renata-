@@ -1,37 +1,21 @@
 import { PageHeader } from "@/components/app/PageHeader";
-import { StrategySection } from "@/components/app/StrategySection";
+import { StrategyWizard } from "@/components/app/StrategyWizard";
+import { getOrgContext } from "@/lib/supabase/org";
 
-export default function EstrategiaPage() {
+export default async function EstrategiaPage() {
+  const ctx = await getOrgContext();
+  const org = ctx
+    ? await ctx.supabase.from("organizations").select("name").eq("id", ctx.orgId).maybeSingle()
+    : null;
+
   return (
     <>
       <PageHeader
         title="Estrategia B2B"
-        description="La base común: por qué existe el negocio, para quién, y qué lo hace ganar."
+        description="Un solo recorrido guiado: estrategia, cliente ideal, oferta, precios y canales, con un PDF al final."
       />
       <div className="flex flex-col gap-6 p-8">
-        <StrategySection
-          title="Business Profile"
-          description="Qué hace la empresa, en qué mercado compite y con qué diferenciales."
-          fields={[
-            { name: "que_hace", label: "Qué hace la empresa (en una frase)" },
-            { name: "mercado", label: "Mercado y geografía" },
-            { name: "diferenciales", label: "Diferenciales frente a la competencia" },
-          ]}
-        />
-        <StrategySection
-          title="Propuesta de valor"
-          description="Por qué una empresa debería elegir tu solución frente a otras alternativas."
-          fields={[
-            { name: "problema", label: "Problema que resolvés para la empresa cliente" },
-            { name: "valor", label: "Propuesta de valor concreta" },
-            { name: "prueba", label: "Evidencia o casos que la respaldan" },
-          ]}
-        />
-        <StrategySection
-          title="Objetivo comercial"
-          description="A dónde tiene que llegar el sistema comercial este semestre."
-          fields={[{ name: "objetivo", label: "Objetivo principal y métrica de éxito" }]}
-        />
+        <StrategyWizard initialAreaId="estrategia" organizationName={org?.data?.name ?? ""} />
       </div>
     </>
   );
