@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
-import { LayoutDashboard, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, ChevronDown, ChevronRight } from "lucide-react";
+import { LayoutDashboard, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, SlidersHorizontal, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, ChevronDown, ChevronRight } from "lucide-react";
 
 const groups = [
   { id:"build", label:"Estrategia", caption:"Build", tone:"violet", icon:Target, items:[
@@ -13,7 +13,10 @@ const groups = [
     {href:"/build/precios",label:"Precios",icon:DollarSign},
     {href:"/build/canales",label:"Canales",icon:Radio},
   ]},
-  { id:"outbound", label:"Prospección", caption:"Outbound", tone:"aqua", icon:Search, items:[{href:"/prospeccion",label:"Buscar oportunidades",icon:Search}]},
+  { id:"outbound", label:"Prospección", caption:"Outbound", tone:"aqua", icon:Search, items:[
+    {href:"/prospeccion",label:"Buscar oportunidades",icon:Search},
+    {href:"/prospeccion/avanzada",label:"Búsqueda avanzada",icon:SlidersHorizontal},
+  ]},
   { id:"crm", label:"CRM", caption:"Relaciones", tone:"aqua", icon:KanbanSquare, items:[
     {href:"/crm",label:"Resumen del CRM",icon:KanbanSquare},
     {href:"/crm/empresas",label:"Empresas",icon:Building2},
