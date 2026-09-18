@@ -4,12 +4,21 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type PipelineDeal = { id: string; title: string; value_estimate: number | null };
+export type PipelineDeal = {
+  id: string;
+  title: string;
+  value_estimate: number | null;
+  currency: string;
+};
 export type PipelineStage = { key: string; label: string; deals: PipelineDeal[] };
 
-function formatValue(value: number | null) {
+function formatValue(value: number | null, currency: string) {
   if (value == null) return null;
-  return "$" + value.toLocaleString("es-AR");
+  try {
+    return new Intl.NumberFormat("es-AR", { style: "currency", currency, maximumFractionDigits: 0 }).format(value);
+  } catch {
+    return `${currency} ${value.toLocaleString("es-AR")}`;
+  }
 }
 
 export function PipelineAccordion({ stages }: { stages: PipelineStage[] }) {
@@ -55,8 +64,10 @@ export function PipelineAccordion({ stages }: { stages: PipelineStage[] }) {
                     className="flex items-center justify-between gap-3 rounded-xl bg-surface-2 px-4 py-2.5 text-sm"
                   >
                     <span className="min-w-0 break-words font-medium text-foreground">{deal.title}</span>
-                    {formatValue(deal.value_estimate) && (
-                      <span className="shrink-0 text-xs text-muted">{formatValue(deal.value_estimate)}</span>
+                    {formatValue(deal.value_estimate, deal.currency) && (
+                      <span className="shrink-0 text-xs text-muted">
+                        {formatValue(deal.value_estimate, deal.currency)}
+                      </span>
                     )}
                   </li>
                 ))}

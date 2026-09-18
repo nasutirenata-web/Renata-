@@ -1,8 +1,7 @@
 import { PageHeader, OriginTabs } from "@/components/app/PageHeader";
-import { Button } from "@/components/ui/Button";
+import { NewDealForm } from "@/components/crm/NewDealForm";
 import { PipelineAccordion, type PipelineDeal } from "@/components/crm/PipelineAccordion";
 import { getOrgContext } from "@/lib/supabase/org";
-import { Plus } from "lucide-react";
 
 const stages = [
   { key: "contacto", label: "Primer contacto" },
@@ -25,7 +24,7 @@ export default async function PipelinePage({
     ? (
         await ctx.supabase
           .from("deals")
-          .select("id, stage, title, value_estimate")
+          .select("id, stage, title, value_estimate, currency")
           .eq("organization_id", ctx.orgId)
           .eq("origin", active)
           .order("created_at", { ascending: false })
@@ -40,6 +39,7 @@ export default async function PipelinePage({
         id: d.id,
         title: d.title,
         value_estimate: d.value_estimate == null ? null : Number(d.value_estimate),
+        currency: d.currency,
       })),
   }));
 
@@ -48,11 +48,7 @@ export default async function PipelinePage({
       <PageHeader
         title="Pipeline"
         description="De primer contacto a primer pedido, por origen."
-        action={
-          <Button size="sm">
-            <Plus className="h-4 w-4" /> Nueva oportunidad
-          </Button>
-        }
+        action={ctx ? <NewDealForm origin={active} /> : undefined}
       />
       <div className="flex flex-col gap-6 p-8">
         <OriginTabs active={active} />
