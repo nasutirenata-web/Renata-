@@ -20,9 +20,9 @@ export function TemperatureControl({ value, onChange, disabled = false, label = 
       key={option.value} type="button" disabled={disabled}
       aria-label={option.label} aria-pressed={value === option.value}
       title={option.label} onClick={() => onChange(option.value)}
-      className="temperature-choice flex h-11 w-11 items-center justify-center rounded-xl disabled:cursor-wait disabled:opacity-60"
+      className="temperature-choice flex h-8 w-8 items-center justify-center rounded-full disabled:cursor-wait disabled:opacity-60"
     ><span className={"temperature-glass temperature-" + option.value} data-selected={value === option.value}>
-      {value === option.value && <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true"/>}
+      {value === option.value && <Check className="h-2.5 w-2.5" strokeWidth={3.5} aria-hidden="true"/>}
     </span></button>)}
   </div>;
 }

@@ -66,36 +66,40 @@ export default async function ContactosPage({
         )}
 
         {ctx && contacts.length > 0 && (
-          <div className="overflow-hidden rounded-3xl border border-surface-border">
-            <table className="w-full text-sm">
-              <thead className="bg-surface/60 text-left text-xs uppercase tracking-wide text-muted-2">
-                <tr>
-                  <th className="px-4 py-3 font-medium">Nombre</th>
-                  <th className="px-4 py-3 font-medium">Cargo</th>
-                  <th className="px-4 py-3 font-medium">Temperatura</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-surface-border">
-                {contacts.map((c) => (
-                  <tr key={c.id} className="bg-surface/30">
-                    <td className="px-4 py-3 font-medium text-foreground">{c.full_name}</td>
-                    <td className="px-4 py-3 text-muted">{c.role_title ?? "—"}</td>
-                    <td className="px-4 py-3">
-                      <TemperaturePicker contactId={c.id} value={c.temperature} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="flex items-center gap-4 border-t border-surface-border bg-surface/40 px-4 py-2.5 text-xs text-muted-2">
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-between px-4 text-xs text-muted-2">
+              <span>Lead / cargo</span>
+              <span>Temperatura</span>
+            </div>
+            {contacts.map((c) => (
+              <div
+                key={c.id}
+                className="lead-row grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl p-3 sm:p-4"
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <span
+                    className="lead-avatar hidden h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-brand sm:flex"
+                    aria-hidden="true"
+                  >
+                    {c.full_name.slice(0, 2).toUpperCase()}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="break-words text-sm font-semibold text-foreground">{c.full_name}</p>
+                    <p className="mt-1 break-words text-xs text-muted">{c.role_title ?? "Sin cargo asignado"}</p>
+                  </div>
+                </div>
+                <TemperaturePicker contactId={c.id} value={c.temperature} />
+              </div>
+            ))}
+            <div className="glass-panel flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-muted-2">
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-sky-400" /> Frío
+                <span className="h-3 w-3 rounded-sm bg-muted-2" /> Frío
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-orange-400" /> Tibio
+                <span className="h-3 w-3 rounded-sm bg-aqua-bright" /> Tibio
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-red-500" /> Caliente
+                <span className="h-3 w-3 rounded-sm bg-brand-dim" /> Caliente
               </span>
             </div>
           </div>

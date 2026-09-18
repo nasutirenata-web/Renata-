@@ -129,8 +129,20 @@ export const strategyAreas: StrategyArea[] = [
     sections: [
       {
         title: "Canal de email",
-        description: "Cómo y cuándo se usa el email en la prospección.",
-        fields: [{ name: "email", label: "Rol del email en la secuencia de contacto" }],
+        description:
+          "Configurá la estrategia del canal: para qué lo usás y cómo. Enviar campañas se hace después, desde Campañas → Email.",
+        fields: [
+          { name: "outbound_activo", label: "¿Usás email para Outbound / Leads? (sí / no)" },
+          { name: "outbound_remitente", label: "Remitente para Outbound (ej: core@tudominio.com)" },
+          { name: "outbound_frecuencia", label: "Frecuencia de envío en la secuencia" },
+          { name: "outbound_tipo", label: "Tipo de mensajes (ej: cold email, follow-up, breakup)" },
+          { name: "outbound_objetivo", label: "Objetivo de la campaña de Outbound" },
+          { name: "newsletter_activo", label: "¿Usás email para Newsletter / Suscriptores? (sí / no)" },
+          { name: "newsletter_remitente", label: "Remitente para Newsletter" },
+          { name: "newsletter_frecuencia", label: "Frecuencia de envío del newsletter" },
+          { name: "newsletter_tipo", label: "Tipo de contenido (novedades, producto, educativo...)" },
+          { name: "newsletter_objetivo", label: "Objetivo del newsletter" },
+        ],
       },
       {
         title: "Canal de WhatsApp",

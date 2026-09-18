@@ -5,7 +5,10 @@ import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Sparkles, Save, ArrowLeft, ArrowRight, FileDown, Check } from "lucide-react";
 import { strategyAreas, allSteps, sectionKey } from "@/lib/strategy-steps";
+import { EmailChannelSection } from "@/components/app/EmailChannelSection";
 import { cn } from "@/lib/utils";
+
+const EMAIL_CHANNEL_KEY = sectionKey("/build/canales", "Canal de email");
 
 type Values = Record<string, Record<string, string>>;
 
@@ -200,30 +203,46 @@ export function StrategyWizard({
       </p>
 
       {!isFinal && current && (
-        <Card className="flex flex-col gap-4">
-          <div>
-            <CardTitle>{current.section.title}</CardTitle>
-            <CardDescription className="mt-1">{current.section.description}</CardDescription>
-          </div>
-          {current.section.fields.map((f) => (
-            <label key={f.name} className="flex flex-col gap-2 text-sm">
-              {f.label}
-              <textarea
-                rows={f.rows ?? 3}
-                placeholder={f.placeholder}
-                disabled={loading}
-                value={values[current.key]?.[f.name] ?? ""}
-                onChange={(e) => {
-                  setValues((prev) => ({
-                    ...prev,
-                    [current.key]: { ...prev[current.key], [f.name]: e.target.value },
-                  }));
-                  setSaved(false);
-                }}
-                className={fieldClass}
-              />
-            </label>
-          ))}
+        <div className="flex flex-col gap-4">
+          {current.key === EMAIL_CHANNEL_KEY ? (
+            <EmailChannelSection
+              values={values[current.key] ?? {}}
+              disabled={loading}
+              onChange={(name, value) => {
+                setValues((prev) => ({
+                  ...prev,
+                  [current.key]: { ...prev[current.key], [name]: value },
+                }));
+                setSaved(false);
+              }}
+            />
+          ) : (
+            <Card className="flex flex-col gap-4">
+              <div>
+                <CardTitle>{current.section.title}</CardTitle>
+                <CardDescription className="mt-1">{current.section.description}</CardDescription>
+              </div>
+              {current.section.fields.map((f) => (
+                <label key={f.name} className="flex flex-col gap-2 text-sm">
+                  {f.label}
+                  <textarea
+                    rows={f.rows ?? 3}
+                    placeholder={f.placeholder}
+                    disabled={loading}
+                    value={values[current.key]?.[f.name] ?? ""}
+                    onChange={(e) => {
+                      setValues((prev) => ({
+                        ...prev,
+                        [current.key]: { ...prev[current.key], [f.name]: e.target.value },
+                      }));
+                      setSaved(false);
+                    }}
+                    className={fieldClass}
+                  />
+                </label>
+              ))}
+            </Card>
+          )}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Button size="sm" variant="ghost" onClick={() => goTo(stepIndex - 1)} disabled={stepIndex === 0}>
               <ArrowLeft className="h-4 w-4" /> Atrás
@@ -241,7 +260,7 @@ export function StrategyWizard({
               </Button>
             </div>
           </div>
-        </Card>
+        </div>
       )}
 
       {isFinal && (

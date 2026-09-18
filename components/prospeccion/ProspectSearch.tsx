@@ -11,9 +11,9 @@ type Prospecto = { nombre_hipotetico: string; razon: string };
 type Temp = "cold" | "warm" | "hot";
 
 const TEMPS: { value: Temp; className: string; label: string }[] = [
-  { value: "cold", className: "bg-sky-400", label: "Frío" },
-  { value: "warm", className: "bg-orange-400", label: "Tibio" },
-  { value: "hot", className: "bg-red-500", label: "Caliente" },
+  { value: "cold", className: "bg-muted-2", label: "Frío" },
+  { value: "warm", className: "bg-aqua-bright", label: "Tibio" },
+  { value: "hot", className: "bg-brand-dim", label: "Caliente" },
 ];
 
 type Origen = "outbound" | "inbound";

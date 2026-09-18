@@ -26,9 +26,9 @@ type ScoreResult = {
 };
 
 const TEMPS: Record<Temperature, { className: string; label: string }> = {
-  cold: { className: "bg-sky-400", label: "Frío" },
-  warm: { className: "bg-orange-400", label: "Tibio" },
-  hot: { className: "bg-red-500", label: "Caliente" },
+  cold: { className: "bg-muted-2", label: "Frío" },
+  warm: { className: "bg-aqua-bright", label: "Tibio" },
+  hot: { className: "bg-brand-dim", label: "Caliente" },
 };
 
 const DEMO_CONTACTS: ScorableContact[] = [
@@ -200,13 +200,13 @@ export function LeadScoringTool({
         <div className="flex items-center justify-between gap-4 border-t border-surface-border bg-surface/40 px-4 py-3">
           <div className="flex items-center gap-4 text-xs text-muted-2">
             <span className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-sm bg-sky-400" /> Frío
+              <span className="h-3 w-3 rounded-sm bg-muted-2" /> Frío
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-sm bg-orange-400" /> Tibio
+              <span className="h-3 w-3 rounded-sm bg-aqua-bright" /> Tibio
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-sm bg-red-500" /> Caliente
+              <span className="h-3 w-3 rounded-sm bg-brand-dim" /> Caliente
             </span>
           </div>
           <Button size="sm" onClick={handleGenerate} disabled={loading || selected.size === 0}>
