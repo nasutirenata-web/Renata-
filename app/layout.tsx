@@ -24,9 +24,19 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://capsule-gtm.com.ar"),
   title: "Capsule GTM — Sistema de Go-to-Market B2B",
   description:
     "Estrategia, datos, CRM, contenido y ventas para empresas de marketing, inteligencia artificial y tecnología. Todo tu GTM en una Capsule.",
+  openGraph: {
+    title: "Capsule GTM — Sistema de Go-to-Market B2B",
+    description:
+      "Estrategia, datos, CRM, contenido y ventas para empresas de marketing, inteligencia artificial y tecnología. Todo tu GTM en una Capsule.",
+    url: "https://capsule-gtm.com.ar",
+    siteName: "Capsule GTM",
+    locale: "es_AR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

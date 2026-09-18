@@ -9,7 +9,7 @@ const SCENES = [
   },
   {
     prompt: "Calificá estos 12 contactos nuevos por temperatura",
-    response: "🔴 4 calientes · 🟠 5 tibios · 🔵 3 fríos\nPriorizá los 4 calientes: mencionaron presupuesto activo esta semana.",
+    response: "🟣 4 calientes · 🟢 5 tibios · ⚪ 3 fríos\nPriorizá los 4 calientes: mencionaron presupuesto activo esta semana.",
   },
   {
     prompt: "Armá el argumentario para \"ya tenemos un proveedor\"",
