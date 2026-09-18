@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LayoutDashboard, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, SlidersHorizontal, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, ChevronDown, ChevronRight } from "lucide-react";
 
 const groups = [
@@ -93,9 +94,12 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
       {mobileOpen&&<div id="mobile-menu" className="capsule-mobile-menu max-h-[75vh] overflow-y-auto border-b border-white/80 py-5 md:hidden">{navigation}</div>}
       <div className="capsule-workbar flex flex-wrap items-center justify-between gap-3 border-b border-white/65 px-5 py-4 md:px-8">
         <div className="flex items-center gap-2 text-xs text-muted"><Link href="/dashboard" className="hover:text-brand">Tu espacio</Link><ChevronRight className="h-3 w-3"/><span className="font-medium text-foreground">{pageName}</span></div>
-        <div className="flex items-center gap-1 rounded-full border border-white/80 bg-white/30 p-1 text-[11px]">
-          <Link href="/prospeccion" className={"rounded-full px-3 py-1.5 "+(currentGroup?.id==="outbound"?"capsule-button-aqua":"text-muted hover:text-aqua")}>Outbound</Link>
-          <Link href="/studio" className={"rounded-full px-3 py-1.5 "+(currentGroup?.id==="studio"?"capsule-button-primary":"text-muted hover:text-brand")}>Inbound</Link>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <div className="flex items-center gap-1 rounded-full border border-white/80 bg-white/30 p-1 text-[11px]">
+            <Link href="/prospeccion" className={"rounded-full px-3 py-1.5 "+(currentGroup?.id==="outbound"?"capsule-button-aqua":"text-muted hover:text-aqua")}>Outbound</Link>
+            <Link href="/studio" className={"rounded-full px-3 py-1.5 "+(currentGroup?.id==="studio"?"capsule-button-primary":"text-muted hover:text-brand")}>Inbound</Link>
+          </div>
         </div>
       </div>
       {currentGroup && currentGroup.items.length>1&&<nav aria-label={"Secciones de "+currentGroup.label} className="workspace-tabs flex gap-2 overflow-x-auto px-5 py-3 md:px-8">

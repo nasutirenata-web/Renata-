@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { LinkButton } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const links = [
   { href: "#sistema", label: "El sistema" },
@@ -28,6 +29,7 @@ export function PublicNav() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <LinkButton href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex">
             Ingresar
           </LinkButton>
