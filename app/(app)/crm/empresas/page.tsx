@@ -1,10 +1,8 @@
 import { PageHeader, OriginTabs } from "@/components/app/PageHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { NewCompanyForm } from "@/components/crm/NewCompanyForm";
+import { CompaniesBoard } from "@/components/crm/CompaniesBoard";
 import { getOrgContext } from "@/lib/supabase/org";
-import { formatDate } from "@/lib/utils";
 import { Building2 } from "lucide-react";
 
 export default async function EmpresasPage({
@@ -53,20 +51,7 @@ export default async function EmpresasPage({
           />
         )}
 
-        {ctx && companies.length > 0 && (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {companies.map((c) => (
-              <Card key={c.id} className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium text-foreground">{c.name}</p>
-                  <Badge tone="brand">{c.origin}</Badge>
-                </div>
-                {c.segment && <p className="text-sm text-muted">{c.segment}</p>}
-                <p className="text-xs text-muted-2">Creada {formatDate(c.created_at)}</p>
-              </Card>
-            ))}
-          </div>
-        )}
+        {ctx && companies.length > 0 && <CompaniesBoard companies={companies} />}
       </div>
     </>
   );

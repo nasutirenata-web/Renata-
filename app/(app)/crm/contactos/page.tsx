@@ -2,7 +2,7 @@ import { PageHeader, OriginTabs } from "@/components/app/PageHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Card } from "@/components/ui/Card";
 import { NewContactForm } from "@/components/crm/NewContactForm";
-import { TemperaturePicker } from "@/components/crm/TemperaturePicker";
+import { ContactsBoard } from "@/components/crm/ContactsBoard";
 import { getOrgContext } from "@/lib/supabase/org";
 import { formatDateTime } from "@/lib/utils";
 import { Users, ClipboardList } from "lucide-react";
@@ -65,45 +65,7 @@ export default async function ContactosPage({
           />
         )}
 
-        {ctx && contacts.length > 0 && (
-          <div className="flex flex-col gap-3">
-            <div className="flex justify-between px-4 text-xs text-muted-2">
-              <span>Lead / cargo</span>
-              <span>Temperatura</span>
-            </div>
-            {contacts.map((c) => (
-              <div
-                key={c.id}
-                className="lead-row grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl p-3 sm:p-4"
-              >
-                <div className="flex min-w-0 items-center gap-3">
-                  <span
-                    className="lead-avatar hidden h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-brand sm:flex"
-                    aria-hidden="true"
-                  >
-                    {c.full_name.slice(0, 2).toUpperCase()}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="break-words text-sm font-semibold text-foreground">{c.full_name}</p>
-                    <p className="mt-1 break-words text-xs text-muted">{c.role_title ?? "Sin cargo asignado"}</p>
-                  </div>
-                </div>
-                <TemperaturePicker contactId={c.id} value={c.temperature} />
-              </div>
-            ))}
-            <div className="glass-panel flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-muted-2">
-              <span className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-temp-cold" /> Frío
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-temp-warm" /> Tibio
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-temp-hot" /> Caliente
-              </span>
-            </div>
-          </div>
-        )}
+        {ctx && contacts.length > 0 && <ContactsBoard contacts={contacts} />}
 
         <div>
           <p className="mb-4 font-logo text-xs uppercase tracking-[0.2em] text-muted-2">
