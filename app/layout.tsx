@@ -23,8 +23,20 @@ const poppins = Poppins({
   weight: ["500", "600", "700"],
 });
 
+const SITE = "https://capsule-gtm.com.ar";
+
+// Datos estructurados para Google: solo hechos verificables (nombre, URL, logo, idioma). Sin precios ni valoraciones.
+const SITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": `${SITE}/#organization`, name: "Capsule GTM", url: SITE, logo: `${SITE}/icon.png` },
+    { "@type": "WebSite", "@id": `${SITE}/#website`, url: SITE, name: "Capsule GTM", inLanguage: "es-AR", publisher: { "@id": `${SITE}/#organization` } },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://capsule-gtm.com.ar"),
+  alternates: { canonical: "/" },
   title: "Capsule GTM — Sistema de Go-to-Market B2B",
   description:
     "Estrategia, datos, CRM, contenido y ventas para empresas de marketing, inteligencia artificial y tecnología. Todo tu GTM en una Capsule.",
@@ -49,6 +61,7 @@ export default function RootLayout({
       className={`${dmSans.variable} ${geistMono.variable} ${manrope.variable} ${poppins.variable} h-full antialiased`}
     >
       <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }} />
         <script
           dangerouslySetInnerHTML={{
             __html:
