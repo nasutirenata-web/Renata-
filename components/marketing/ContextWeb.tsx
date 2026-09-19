@@ -11,6 +11,8 @@ export function ContextWeb() {
       <div className="context-orbit">
         <div className="context-ring" aria-hidden="true"/><div className="context-ring outer" aria-hidden="true"/>
         <div className="context-pulse" aria-hidden="true"/><div className="context-pulse delay" aria-hidden="true"/>
+        <div className="context-orbiter" aria-hidden="true"><i/><i/><i/></div>
+        <div className="context-orbiter outer" aria-hidden="true"><i/><i/></div>
         <div className="context-hub">
           <Logo height={51}/>
           <span className="text-[10px] text-muted">Tu negocio, conectado.</span>

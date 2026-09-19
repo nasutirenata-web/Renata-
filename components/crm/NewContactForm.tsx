@@ -5,14 +5,18 @@ import { createContact } from "@/app/(app)/crm/contactos/actions";
 import { Button } from "@/components/ui/Button";
 import { Plus } from "lucide-react";
 
-export function NewContactForm({ origin }: { origin: "outbound" | "inbound" }) {
+const fieldClass =
+  "rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-brand";
+
+// Carga manual: es la alternativa a Buscar prospectos, por eso el botón es secundario.
+export function NewContactForm({ companies }: { companies: { id: string; name: string }[] }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
   if (!open) {
     return (
-      <Button size="sm" onClick={() => setOpen(true)}>
+      <Button size="sm" variant="outline" onClick={() => setOpen(true)}>
         <Plus className="h-4 w-4" /> Nuevo contacto
       </Button>
     );
@@ -28,28 +32,40 @@ export function NewContactForm({ origin }: { origin: "outbound" | "inbound" }) {
           else setOpen(false);
         });
       }}
-      className="flex flex-wrap items-end gap-3 rounded-2xl border border-brand/20 bg-brand/[0.05] p-4"
+      className="flex w-full basis-full flex-wrap items-end gap-3 rounded-2xl border border-brand/20 bg-brand/[0.05] p-4"
     >
-      <input type="hidden" name="origin" value={origin} />
       <label className="flex flex-col gap-1 text-xs text-muted">
         Nombre
-        <input
-          name="full_name"
-          required
-          className="rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-brand"
-          placeholder="Nombre y apellido"
-        />
+        <input name="full_name" required maxLength={120} className={fieldClass} placeholder="Nombre y apellido" />
       </label>
       <label className="flex flex-col gap-1 text-xs text-muted">
         Cargo
-        <input
-          name="role_title"
-          className="rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-brand"
-          placeholder="Encargado de compras"
-        />
+        <input name="role_title" maxLength={120} className={fieldClass} placeholder="Directora de Marketing" />
+      </label>
+      <label className="flex flex-col gap-1 text-xs text-muted">
+        Empresa
+        <select name="company_id" defaultValue="" className={fieldClass}>
+          <option value="">Sin empresa</option>
+          {companies.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="flex flex-col gap-1 text-xs text-muted">
+        Email (opcional)
+        <input name="email" type="email" maxLength={200} className={fieldClass} placeholder="nombre@empresa.com" />
+      </label>
+      <label className="flex flex-col gap-1 text-xs text-muted">
+        Origen
+        <select name="origin" defaultValue="outbound" className={fieldClass}>
+          <option value="outbound">Outbound</option>
+          <option value="inbound">Inbound</option>
+        </select>
       </label>
       <Button type="submit" size="sm" disabled={pending}>
-        {pending ? "Guardando…" : "Guardar"}
+        {pending ? "Guardando…" : "Guardar contacto"}
       </Button>
       <Button type="button" size="sm" variant="ghost" onClick={() => setOpen(false)}>
         Cancelar

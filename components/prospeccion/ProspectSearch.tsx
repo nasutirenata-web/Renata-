@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Search } from "lucide-react";
-import { logSearch, addProspectToCrm } from "@/app/(app)/prospeccion/actions";
-import { ProspectResults, type Prospecto, type Temp } from "@/components/prospeccion/ProspectResults";
+import { logSearch } from "@/app/(app)/prospeccion/actions";
+import { ProspectResults, type Prospecto } from "@/components/prospeccion/ProspectResults";
 
 type Origen = "outbound" | "inbound";
 
@@ -16,18 +16,27 @@ export function ProspectSearch() {
   const [rol, setRol] = useState("");
   const [origen, setOrigen] = useState<Origen>("outbound");
   const [results, setResults] = useState<Prospecto[]>([]);
-  const [temps, setTemps] = useState<Record<number, Temp>>({});
-  const [added, setAdded] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [, startTransition] = useTransition();
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/strategy", { signal: controller.signal }).then(async response => {
+      if (!response.ok) return;
+      const data = await response.json();
+      const segment = data.sections?.["/build/icp:Segmentación"]?.values;
+      const person = data.sections?.["/build/icp:Perfil del decisor"]?.values;
+      if (segment?._reviewed === "true") { setSegmento(v => v || segment.segmento || ""); setZona(v => v || segment.geografia || ""); setTamano(v => v || segment.tamano || ""); }
+      if (person?._reviewed === "true") setRol(v => v || person.decisor || "");
+    }).catch(() => {});
+    return () => controller.abort();
+  }, []);
 
   async function handleSearch() {
     setLoading(true);
     setNotice(null);
     setResults([]);
-    setTemps({});
-    setAdded({});
     try {
       const res = await fetch("/api/ai/prospectar", {
         method: "POST",
@@ -55,13 +64,6 @@ export function ProspectSearch() {
     }
   }
 
-  function handleAdd(i: number, name: string) {
-    startTransition(async () => {
-      const res = await addProspectToCrm(name, origen);
-      if (!res?.error) setAdded((prev) => ({ ...prev, [i]: true }));
-    });
-  }
-
   return (
     <>
       <Card className="flex flex-col gap-4">
@@ -75,7 +77,7 @@ export function ProspectSearch() {
           <input
             value={segmento}
             onChange={(e) => setSegmento(e.target.value)}
-            placeholder="Segmento (ej: comercio de barrio)"
+            placeholder="Segmento (ej: software B2B, agencias)"
             className="w-full rounded-full border border-surface-border bg-surface-2 px-4 py-2.5 text-sm outline-none focus:border-brand"
           />
           <input
@@ -112,13 +114,7 @@ export function ProspectSearch() {
       </Card>
 
       {results.length > 0 && (
-        <ProspectResults
-          results={results}
-          temps={temps}
-          added={added}
-          onTemp={(i, t) => setTemps((prev) => ({ ...prev, [i]: t }))}
-          onAdd={handleAdd}
-        />
+        <ProspectResults key={results.map((r) => r.nombre_hipotetico).join("|")} results={results} origin={origen} />
       )}
     </>
   );

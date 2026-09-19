@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/app/PageHeader";
+import { ConfigTabs } from "@/components/app/ConfigTabs";
 import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/Button";
@@ -29,6 +30,7 @@ export default function IntegracionesPage() {
         title="Integraciones"
         description="Estado real de cada conexión. Nada se marca conectado si no lo está de verdad."
       />
+      <ConfigTabs active="/configuracion/integraciones" />
       <div className="flex flex-col gap-4 p-8">
         <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">

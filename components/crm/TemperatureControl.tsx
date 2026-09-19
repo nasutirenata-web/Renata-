@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "lucide-react";
+
 
 export type Temperature = "hot" | "warm" | "cold";
 export const temperatureOptions = [
@@ -10,7 +10,7 @@ export const temperatureOptions = [
 ] as const;
 
 export function TemperatureControl({ value, onChange, disabled = false, label = "Cualificación del lead" }: {
-  value: Temperature;
+  value: Temperature | null;
   onChange: (value: Temperature) => void;
   disabled?: boolean;
   label?: string;
@@ -22,7 +22,7 @@ export function TemperatureControl({ value, onChange, disabled = false, label = 
       title={option.label} onClick={() => onChange(option.value)}
       className="temperature-choice flex h-8 w-8 items-center justify-center rounded-full disabled:cursor-wait disabled:opacity-60"
     ><span className={"temperature-glass temperature-" + option.value} data-selected={value === option.value}>
-      {value === option.value && <Check className="h-2.5 w-2.5" strokeWidth={3.5} aria-hidden="true"/>}
+      
     </span></button>)}
   </div>;
 }

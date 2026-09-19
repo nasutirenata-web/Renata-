@@ -203,11 +203,11 @@ export function ToolRunner({
                   href={mailtoHref}
                   className="capsule-button capsule-button-aqua inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-display font-semibold backdrop-blur-xl transition-all duration-200"
                 >
-                  <Mail className="h-4 w-4" /> Enviar por email
+                  <Mail className="h-4 w-4" /> Abrir borrador en tu correo
                 </a>
               ) : (
                 <p className="text-xs text-muted-2">
-                  Completá "{emailField.label}" para poder enviarlo desde acá.
+                  Completá «{emailField.label}» para abrir el borrador en tu aplicación de correo.
                 </p>
               )}
             </div>

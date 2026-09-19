@@ -1,6 +1,8 @@
+import { cache } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
-export async function getOrgContext() {
+// cache: el layout y la página piden lo mismo en un pedido; así se consulta a Supabase una sola vez.
+export const getOrgContext = cache(async () => {
   if (!isSupabaseConfigured()) return null;
 
   const supabase = await createClient();
@@ -19,4 +21,4 @@ export async function getOrgContext() {
   if (!membership) return null;
 
   return { supabase, user, orgId: membership.organization_id as string };
-}
+});

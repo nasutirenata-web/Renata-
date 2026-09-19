@@ -1,3 +1,5 @@
+import { getStrategyContext } from "@/lib/strategy-context";
+import { geminiErrorMessage } from "@/lib/gemini-errors";
 import { requireAIUser } from "@/lib/api-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
@@ -62,6 +64,7 @@ export async function POST(req: NextRequest) {
   const ai = new GoogleGenAI({ apiKey });
 
   try {
+    const strategyContext = await getStrategyContext();
     const interaction = await ai.interactions.create({
       model: "gemini-3.6-flash",
       input: [
@@ -75,7 +78,7 @@ export async function POST(req: NextRequest) {
         `Señal / motivo para contactar ahora: ${senal || "(sin especificar)"}`,
         `Origen: ${origen === "inbound" ? "Inbound (ya mostró interés)" : "Outbound (prospección en frío)"}`,
       ].join("\n"),
-      system_instruction: SYSTEM_PROMPT,
+      system_instruction: SYSTEM_PROMPT + "\n\n" + strategyContext,
     });
 
     const parsed = extractJson(interaction.output_text ?? "");
@@ -90,9 +93,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ prospectos });
   } catch (error) {
-    const description = error instanceof Error ? error.message : "Error desconocido.";
     return NextResponse.json(
-      { error: "provider_error", message: `Gemini devolvió un error: ${description}` },
+      { error: "provider_error", message: geminiErrorMessage(error) },
       { status: 502 },
     );
   }

@@ -45,7 +45,7 @@ export function TerminalDemo() {
         );
         timers.push(
           setTimeout(
-            () => setSceneIndex((s) => (s + 1) % SCENES.length),
+            () => { setTypedPrompt(""); setShowResponse(false); setSceneIndex((s) => (s + 1) % SCENES.length); },
             PAUSE_AFTER_PROMPT_MS + RESPONSE_HOLD_MS + SCENE_GAP_MS
           )
         );

@@ -6,7 +6,7 @@ distribución a farmacias y comercios.
 
 ## Estado actual
 
-- ✅ Landing page, navegación y esqueleto completo de la plataforma (Dashboard, CRM,
+- ✅ Landing page, navegación y esqueleto completo de la plataforma (Medidor de KPIs, CRM,
   Studio, Chat, Configuración).
 - ✅ 12 herramientas comerciales del Studio (email en frío, propuestas, objeciones,
   posts de LinkedIn, briefings, etc.), generadas con IA vía Gemini si hay API key.

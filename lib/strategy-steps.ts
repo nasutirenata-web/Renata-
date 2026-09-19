@@ -44,13 +44,13 @@ export const strategyAreas: StrategyArea[] = [
     id: "icp",
     pathname: "/build/icp",
     label: "Cliente ideal · ICP",
-    description: "A quién le vendés y cómo se segmentan tus comercios objetivo.",
+    description: "A quién le vendés y cómo se segmentan tus empresas objetivo.",
     sections: [
       {
         title: "Segmentación",
         description: "Los criterios que definen una cuenta objetivo.",
         fields: [
-          { name: "segmento", label: "Segmentos (ej: comercio de barrio, cadena, negocio especializado)" },
+          { name: "segmento", label: "Segmentos (ej: software B2B, servicios de tecnología, agencias)" },
           { name: "geografia", label: "Geografía / zona de cobertura" },
           { name: "tamano", label: "Tamaño o volumen estimado de compra" },
         ],
@@ -78,10 +78,10 @@ export const strategyAreas: StrategyArea[] = [
     sections: [
       {
         title: "Propuesta comercial",
-        description: "Qué se ofrece concretamente a un comercio.",
+        description: "Qué se ofrece concretamente a una empresa cliente.",
         fields: [
           { name: "oferta", label: "Descripción de la oferta" },
-          { name: "condiciones", label: "Condiciones comerciales (mínimos, plazos, logística)" },
+          { name: "condiciones", label: "Condiciones comerciales existentes (alcance, plazos, contratación)" },
         ],
       },
       {
@@ -105,7 +105,7 @@ export const strategyAreas: StrategyArea[] = [
     sections: [
       {
         title: "Estructura de precios",
-        description: "Cómo se estructura el precio de tu servicio, proyecto o suscripción.",
+        description: "Precios de venta existentes de la empresa; completalos solo si los conocés.",
         fields: [
           { name: "lista", label: "Precios / rangos por servicio, solución o suscripción", rows: 4 },
           { name: "descuentos", label: "Descuentos por volumen o condición" },
@@ -130,7 +130,7 @@ export const strategyAreas: StrategyArea[] = [
       {
         title: "Canal de email",
         description:
-          "Configurá la estrategia del canal: para qué lo usás y cómo. Enviar campañas se hace después, desde Campañas → Email.",
+          "Configurá la estrategia del canal: para qué lo usás y cómo. Preparar mensajes no los envía. El envío requiere un canal conectado.",
         fields: [
           { name: "outbound_activo", label: "¿Usás email para Outbound / Leads? (sí / no)" },
           { name: "outbound_remitente", label: "Remitente para Outbound (ej: core@tudominio.com)" },
@@ -155,7 +155,7 @@ export const strategyAreas: StrategyArea[] = [
       {
         title: "Canales de venta",
         description: "Los canales por los que efectivamente se concreta una venta.",
-        fields: [{ name: "canales_venta", label: "Canales de venta (directo, distribuidor, showroom, etc.)" }],
+        fields: [{ name: "canales_venta", label: "Canales de venta (venta consultiva, autoservicio, partners, etc.)" }],
       },
     ],
   },

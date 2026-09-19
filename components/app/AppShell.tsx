@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { LayoutDashboard, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, SlidersHorizontal, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, MessagesSquare, ChevronDown, ChevronRight } from "lucide-react";
+import { Avatar } from "@/components/ui/Avatar";
+import { Gauge, Building2, Users, KanbanSquare, Activity, Palette, Bot, Settings, CalendarDays, Search, SlidersHorizontal, Target, Compass, Tag, DollarSign, Radio, Share2, ImageIcon, Menu, X, ArrowUpRight, LogOut, MessagesSquare, ChevronDown, ChevronRight } from "lucide-react";
 
 const groups = [
   { id:"build", label:"Estrategia", caption:"Build", tone:"violet", icon:Target, items:[
@@ -33,7 +34,7 @@ const groups = [
   ]},
 ];
 
-export function AppShell({children,organizationName,hasSession=false}:{children:React.ReactNode;organizationName?:string;hasSession?:boolean}) {
+export function AppShell({children,organizationName,hasSession=false,userName,avatarUrl=null}:{children:React.ReactNode;organizationName?:string;hasSession?:boolean;userName?:string;avatarUrl?:string|null}) {
   const pathname=usePathname();
   const [mobileOpen,setMobileOpen]=useState(false);
   const [query,setQuery]=useState("");
@@ -41,7 +42,7 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
   const currentGroup=groups.find(g=>g.items.some(i=>pathname===i.href || (i.href!=="/crm" && pathname.startsWith(i.href+"/"))));
   const allItems=groups.flatMap(g=>g.items);
   const current=allItems.find(i=>i.href===pathname);
-  const pageName=current?.label ?? (pathname==="/dashboard"?"Dashboard":pathname==="/chat"?"Asistente GTM":pathname==="/mensajes"?"Mensajes":pathname.startsWith("/configuracion")?"Configuración":"Capsule GTM");
+  const pageName=current?.label ?? (pathname==="/dashboard"?"Medidor de KPIs":pathname==="/chat"?"Asistente GTM":pathname==="/mensajes"?"Mensajes":pathname.startsWith("/configuracion")?"Configuración":"Capsule GTM");
   const normalize=(text:string)=>text.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
   const filtered=groups.map(g=>({...g,items:g.items.filter(i=>normalize(g.label+" "+i.label+" "+g.caption).includes(normalize(query)))})).filter(g=>g.items.length);
   const closeMenu=()=>setMobileOpen(false);
@@ -54,7 +55,7 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
       </label>
     </div>
     <nav aria-label="Menú de la plataforma" className="px-3 pb-5">
-      <Link href="/dashboard" onClick={closeMenu} aria-current={pathname==="/dashboard"?"page":undefined} className={"workspace-shortcut "+(pathname==="/dashboard"?"capsule-nav-active":"")}><LayoutDashboard className="h-4 w-4"/>Dashboard<ArrowUpRight className="ml-auto h-3.5 w-3.5 opacity-60"/></Link>
+      <Link href="/dashboard" onClick={closeMenu} aria-current={pathname==="/dashboard"?"page":undefined} className={"workspace-shortcut "+(pathname==="/dashboard"?"capsule-nav-active":"")}><Gauge className="h-4 w-4"/>Medidor de KPIs<ArrowUpRight className="ml-auto h-3.5 w-3.5 opacity-60"/></Link>
       <div className="workspace-path mt-5 space-y-3">
         {filtered.map(g=>{
           const active=currentGroup?.id===g.id;
@@ -73,7 +74,7 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
       <div className="mt-5 space-y-1 border-t border-white/80 pt-4">
         <Link href="/mensajes" onClick={closeMenu} aria-current={pathname==="/mensajes"?"page":undefined} className={"workspace-shortcut "+(pathname==="/mensajes"?"capsule-nav-active":"")}><MessagesSquare className="h-4 w-4"/>Mensajes</Link>
         <Link href="/chat" onClick={closeMenu} aria-current={pathname==="/chat"?"page":undefined} className={"workspace-shortcut "+(pathname==="/chat"?"capsule-nav-active":"")}><Bot className="h-4 w-4"/>Asistente GTM</Link>
-        <Link href="/configuracion/integraciones" onClick={closeMenu} aria-current={pathname.startsWith("/configuracion")?"page":undefined} className={"workspace-shortcut "+(pathname.startsWith("/configuracion")?"capsule-nav-active":"")}><Settings className="h-4 w-4"/>Configuración</Link>
+        <Link href="/configuracion/perfil" onClick={closeMenu} aria-current={pathname.startsWith("/configuracion")?"page":undefined} className={"workspace-shortcut "+(pathname.startsWith("/configuracion")?"capsule-nav-active":"")}><Settings className="h-4 w-4"/>Configuración</Link>
         {hasSession&&<form action="/api/auth/logout" method="post"><button className="workspace-shortcut w-full text-muted"><LogOut className="h-4 w-4"/>Cerrar sesión</button></form>}
       </div>
     </nav>
@@ -83,8 +84,8 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
       <div className="px-6 pb-3 pt-5"><Link href="/" aria-label="Capsule GTM, ir al inicio"><Logo height={63}/></Link></div>
       <div className="flex-1 overflow-y-auto [scrollbar-width:thin]">{navigation}</div>
       <div className="glass-panel m-3 flex items-center gap-3 rounded-2xl p-3">
-        <span className="glass-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-brand"><Building2 className="h-4 w-4"/></span>
-        <div className="min-w-0"><p className="truncate text-xs font-medium">{organizationName??"Tu espacio Capsule"}</p><p className="mt-1 text-[10px] text-muted">{hasSession?"Sesión iniciada":"Iniciá sesión para guardar"}</p></div>
+        {hasSession&&userName?<Avatar name={userName} url={avatarUrl} size={36}/>:<span className="glass-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-brand"><Building2 className="h-4 w-4"/></span>}
+        <div className="min-w-0"><p className="truncate text-xs font-medium">{userName??organizationName??"Tu espacio Capsule"}</p><p className="mt-1 text-[10px] text-muted">{hasSession?"Sesión iniciada":"Iniciá sesión para guardar"}</p></div>
       </div>
     </aside>
     <div className="flex min-h-screen min-w-0 flex-1 flex-col">
@@ -97,13 +98,13 @@ export function AppShell({children,organizationName,hasSession=false}:{children:
         <div className="flex items-center gap-2 text-xs text-muted"><Link href="/dashboard" className="hover:text-brand">Tu espacio</Link><ChevronRight className="h-3 w-3"/><span className="font-medium text-foreground">{pageName}</span></div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <div className="flex items-center gap-1 rounded-full border border-white/80 bg-white/30 p-1 text-[11px]">
+          <div className="hidden">
             <Link href="/prospeccion" className={"rounded-full px-3 py-1.5 "+(currentGroup?.id==="outbound"?"capsule-button-aqua":"text-muted hover:text-aqua")}>Outbound</Link>
             <Link href="/studio" className={"rounded-full px-3 py-1.5 "+(currentGroup?.id==="studio"?"capsule-button-primary":"text-muted hover:text-brand")}>Inbound</Link>
           </div>
         </div>
       </div>
-      {currentGroup && currentGroup.items.length>1&&<nav aria-label={"Secciones de "+currentGroup.label} className="workspace-tabs flex gap-2 overflow-x-auto px-5 py-3 md:px-8">
+      {currentGroup && currentGroup.id!=="build" && currentGroup.items.length>1&&<nav aria-label={"Secciones de "+currentGroup.label} className="workspace-tabs flex gap-2 overflow-x-auto px-5 py-3 md:px-8">
         {currentGroup.items.map(item=><Link key={item.href} href={item.href} aria-current={pathname===item.href?"page":undefined} className={"shrink-0 rounded-full border px-4 py-2 text-xs transition-all "+(pathname===item.href?"capsule-nav-active border-white":"border-white/65 bg-white/20 text-muted hover:bg-white/50")}>{item.label}</Link>)}
       </nav>}
       <main className="min-w-0 flex-1">{children}</main>

@@ -1,17 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Theme = "light" | "dark";
 
+function readTheme(): Theme { return document.documentElement.dataset.theme === "dark" ? "dark" : "light"; }
+function subscribeTheme(listener: () => void) { const observer=new MutationObserver(listener); observer.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]}); window.addEventListener("capsule-theme-change",listener); return () => { observer.disconnect(); window.removeEventListener("capsule-theme-change",listener); }; }
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme | null>(null);
-
-  useEffect(() => {
-    setTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
-  }, []);
+  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => null);
 
   function toggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
@@ -19,7 +17,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     try {
       localStorage.setItem("capsule-theme", next);
     } catch {}
-    setTheme(next);
+    window.dispatchEvent(new Event("capsule-theme-change"));
   }
 
   const dark = theme === "dark";

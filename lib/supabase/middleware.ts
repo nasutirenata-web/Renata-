@@ -11,6 +11,10 @@ export async function updateSession(request: NextRequest) {
 
   const isProtected = PROTECTED_PREFIXES.some((p) => request.nextUrl.pathname === p || request.nextUrl.pathname.startsWith(p + "/"));
 
+  // Solo las secciones protegidas necesitan verificar la sesión acá. La landing, la demo, el acceso y la API
+  // (que verifica por su cuenta) se saltean esa consulta a Supabase y responden más rápido.
+  if (!isProtected) return response;
+
   if (!supabaseUrl || !supabaseKey) {
     // Sin Supabase configurado no hay sesiones reales: dejamos pasar todo para
     // que el esqueleto de la app siga siendo navegable con sus estados honestos.

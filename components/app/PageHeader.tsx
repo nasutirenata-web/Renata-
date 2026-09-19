@@ -32,7 +32,7 @@ export function OriginTabs({ active }: { active: "outbound" | "inbound" }) {
       <a
         href="?origen=inbound"
         className={`rounded-full px-4 py-1.5 transition-colors ${
-          active === "inbound" ? "bg-brand text-brand-foreground" : "text-muted hover:text-foreground"
+          active === "inbound" ? "capsule-button-primary" : "text-muted hover:text-foreground"
         }`}
       >
         Inbound

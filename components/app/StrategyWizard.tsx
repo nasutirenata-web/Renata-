@@ -1,285 +1,74 @@
 "use client";
-
-import { useEffect, useMemo, useState } from "react";
-import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { Sparkles, Save, ArrowLeft, ArrowRight, FileDown, Check } from "lucide-react";
-import { strategyAreas, allSteps, sectionKey } from "@/lib/strategy-steps";
-import { EmailChannelSection } from "@/components/app/EmailChannelSection";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Sparkles, ArrowRight, FileDown, Check, Building2 } from "lucide-react";
+import { Button, LinkButton } from "@/components/ui/Button";
+import { strategyAreas, sectionKey } from "@/lib/strategy-steps";
+import { AREA_GUIDES, GOALS, WORKSPACE_KEY, RESEARCH_KEY, type StrategyValues, type StrategyOptions, type ResearchSource } from "@/lib/strategy-workspace";
 import { cn } from "@/lib/utils";
-
-const EMAIL_CHANNEL_KEY = sectionKey("/build/canales", "Canal de email");
-
-type Values = Record<string, Record<string, string>>;
-
-export function StrategyWizard({
-  initialAreaId,
-  organizationName,
-}: {
-  initialAreaId: string;
-  organizationName: string;
-}) {
-  const startIndex = Math.max(
-    0,
-    allSteps.findIndex((s) => s.area.id === initialAreaId),
-  );
-
-  const [values, setValues] = useState<Values>({});
-  const [loading, setLoading] = useState(true);
-  const [stepIndex, setStepIndex] = useState(startIndex);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [notice, setNotice] = useState("");
-
-  const [showAi, setShowAi] = useState(false);
-  const [descripcion, setDescripcion] = useState("");
-  const [generating, setGenerating] = useState(false);
-  const [aiNotice, setAiNotice] = useState("");
-
-  const totalSteps = allSteps.length + 1; // + final PDF step
-  const isFinal = stepIndex >= allSteps.length;
-  const current = isFinal ? null : allSteps[stepIndex];
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch("/api/strategy", { signal: controller.signal })
-      .then(async (r) => {
-        const data = await r.json();
-        if (!r.ok) throw new Error(data.error);
-        const next: Values = {};
-        for (const [key, entry] of Object.entries(data.sections ?? {})) {
-          next[key] = (entry as { values: Record<string, string> }).values ?? {};
-        }
-        setValues(next);
-      })
-      .catch((e) => {
-        if (e.name !== "AbortError") setNotice(e.message ?? "No se pudieron cargar tus borradores.");
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
-      });
-    return () => controller.abort();
-  }, []);
-
-  async function saveStep() {
-    if (!current) return true;
-    setSaving(true);
-    setNotice("");
-    try {
-      const res = await fetch("/api/strategy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: current.key, values: values[current.key] ?? {} }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setSaved(true);
-      return true;
-    } catch (e) {
-      setNotice(e instanceof Error ? e.message : "No se pudo guardar.");
-      return false;
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function goTo(index: number) {
-    await saveStep();
-    setSaved(false);
-    setStepIndex(Math.min(Math.max(index, 0), allSteps.length));
-  }
-
-  async function handleGenerate() {
-    if (!descripcion.trim()) return;
-    setGenerating(true);
-    setAiNotice("");
-    try {
-      const res = await fetch("/api/ai/generar-estrategia", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ descripcion }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setAiNotice(data.message ?? "No se pudo generar la estrategia.");
-        return;
-      }
-      setValues((prev) => ({ ...prev, ...data.sections }));
-      setShowAi(false);
-      setAiNotice("");
-    } catch {
-      setAiNotice("No se pudo conectar con el servidor de IA.");
-    } finally {
-      setGenerating(false);
-    }
-  }
-
-  function handleDownloadPdf() {
-    import("@/lib/generate-strategy-pdf").then(({ generateStrategyPdf }) => {
-      generateStrategyPdf(values, organizationName || "Capsule GTM");
-    });
-  }
-
-  const fieldClass =
-    "resize-y rounded-2xl border border-surface-border bg-surface-2 px-4 py-3 text-base leading-relaxed outline-none focus:border-brand disabled:opacity-50";
-
-  return (
-    <div className="flex flex-col gap-6">
-      {/* Área stepper */}
-      <div className="flex flex-wrap gap-2">
-        {strategyAreas.map((area) => {
-          const firstIndex = allSteps.findIndex((s) => s.area.id === area.id);
-          const lastIndex = allSteps.map((s) => s.area.id).lastIndexOf(area.id);
-          const isCurrentArea = !isFinal && current?.area.id === area.id;
-          const isDone = stepIndex > lastIndex;
-          return (
-            <button
-              key={area.id}
-              type="button"
-              onClick={() => goTo(firstIndex)}
-              className={cn(
-                "rounded-full border px-4 py-1.5 text-xs font-medium transition-colors",
-                isCurrentArea
-                  ? "border-brand bg-brand/10 text-brand"
-                  : isDone
-                    ? "border-ok/30 bg-ok/10 text-ok"
-                    : "border-surface-border bg-surface-2 text-muted hover:text-foreground",
-              )}
-            >
-              {isDone && <Check className="mr-1 inline h-3 w-3" />}
-              {area.label}
-            </button>
-          );
-        })}
-        <button
-          type="button"
-          onClick={() => goTo(allSteps.length)}
-          className={cn(
-            "rounded-full border px-4 py-1.5 text-xs font-medium transition-colors",
-            isFinal ? "border-brand bg-brand/10 text-brand" : "border-surface-border bg-surface-2 text-muted hover:text-foreground",
-          )}
-        >
-          <FileDown className="mr-1 inline h-3 w-3" />
-          PDF final
-        </button>
-      </div>
-
-      {/* Generar con IA */}
-      <Card className="flex flex-col gap-3">
-        <button
-          type="button"
-          onClick={() => setShowAi((v) => !v)}
-          className="flex items-center gap-2 text-left text-sm font-semibold text-brand"
-        >
-          <Sparkles className="h-4 w-4" />
-          Generar todo con IA a partir de una descripción
-        </button>
-        {showAi && (
-          <div className="flex flex-col gap-3">
-            <CardDescription>
-              Contanos de qué trata tu negocio en un párrafo. La IA arma un primer borrador de
-              las {allSteps.length} secciones (estrategia, ICP, oferta, precios y canales) para
-              que después las revises y ajustes vos — no reemplaza tu criterio, es un punto de
-              partida.
-            </CardDescription>
-            <textarea
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              rows={3}
-              placeholder="Ej: Vendemos software de gestión de turnos para peluquerías y barberías en Argentina, suscripción mensual..."
-              className={fieldClass}
-            />
-            <Button size="sm" className="w-fit" onClick={handleGenerate} disabled={generating}>
-              <Sparkles className="h-4 w-4" />
-              {generating ? "Generando…" : "Generar borrador completo"}
-            </Button>
-            {aiNotice && <p className="text-xs text-warning">{aiNotice}</p>}
-          </div>
-        )}
-      </Card>
-
-      <p className="text-xs uppercase tracking-wide text-muted-2">
-        Paso {Math.min(stepIndex + 1, totalSteps)} de {totalSteps}
-      </p>
-
-      {!isFinal && current && (
-        <div className="flex flex-col gap-4">
-          {current.key === EMAIL_CHANNEL_KEY ? (
-            <EmailChannelSection
-              values={values[current.key] ?? {}}
-              disabled={loading}
-              onChange={(name, value) => {
-                setValues((prev) => ({
-                  ...prev,
-                  [current.key]: { ...prev[current.key], [name]: value },
-                }));
-                setSaved(false);
-              }}
-            />
-          ) : (
-            <Card className="flex flex-col gap-4">
-              <div>
-                <CardTitle>{current.section.title}</CardTitle>
-                <CardDescription className="mt-1">{current.section.description}</CardDescription>
-              </div>
-              {current.section.fields.map((f) => (
-                <label key={f.name} className="flex flex-col gap-2 text-sm">
-                  {f.label}
-                  <textarea
-                    rows={f.rows ?? 3}
-                    placeholder={f.placeholder}
-                    disabled={loading}
-                    value={values[current.key]?.[f.name] ?? ""}
-                    onChange={(e) => {
-                      setValues((prev) => ({
-                        ...prev,
-                        [current.key]: { ...prev[current.key], [f.name]: e.target.value },
-                      }));
-                      setSaved(false);
-                    }}
-                    className={fieldClass}
-                  />
-                </label>
-              ))}
-            </Card>
-          )}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <Button size="sm" variant="ghost" onClick={() => goTo(stepIndex - 1)} disabled={stepIndex === 0}>
-              <ArrowLeft className="h-4 w-4" /> Atrás
-            </Button>
-            <div className="flex items-center gap-3">
-              <p role="status" className={cn("text-xs", notice ? "text-warning" : "text-muted")}>
-                {loading ? "Cargando…" : notice || (saved ? "Guardado" : "")}
-              </p>
-              <Button size="sm" variant="secondary" onClick={saveStep} disabled={saving}>
-                <Save className="h-4 w-4" /> {saving ? "Guardando…" : "Guardar"}
-              </Button>
-              <Button size="sm" onClick={() => goTo(stepIndex + 1)} disabled={saving}>
-                {stepIndex === allSteps.length - 1 ? "Ir al PDF" : "Continuar"}
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isFinal && (
-        <Card className="flex flex-col items-start gap-4">
-          <div>
-            <CardTitle>Tu estrategia está lista</CardTitle>
-            <CardDescription className="mt-1">
-              Descargá el documento con toda la estrategia — estrategia B2B, cliente ideal,
-              oferta, precios y canales — en un solo PDF listo para compartir con tu equipo.
-            </CardDescription>
-          </div>
-          <Button onClick={handleDownloadPdf}>
-            <FileDown className="h-4 w-4" /> Descargar PDF
-          </Button>
-          <Button size="sm" variant="ghost" onClick={() => goTo(allSteps.length - 1)}>
-            <ArrowLeft className="h-4 w-4" /> Volver a revisar
-          </Button>
-        </Card>
-      )}
-    </div>
-  );
+const field="w-full rounded-xl border border-surface-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-brand";
+const sectionTitle=(title:string)=>title==="Business Profile"?"Perfil de la empresa":title;
+export function StrategyWizard({initialAreaId,organizationName}:{initialAreaId:string;organizationName:string}) {
+ const router=useRouter(); const area=strategyAreas.find(a=>a.id===initialAreaId)??strategyAreas[0]; const guide=AREA_GUIDES[area.id];
+ const [values,setValues]=useState<StrategyValues>({}); const [proposals,setProposals]=useState<StrategyValues>({}); const [options,setOptions]=useState<StrategyOptions>({}); const [sources,setSources]=useState<ResearchSource[]>([]);
+ const [company,setCompany]=useState(organizationName); const [reference,setReference]=useState(""); const [goal,setGoal]=useState(GOALS[0]);
+ const [loading,setLoading]=useState(true); const [loadFailed,setLoadFailed]=useState(false); const [busy,setBusy]=useState(false); const [notice,setNotice]=useState(""); const [warning,setWarning]=useState(""); const [editing,setEditing]=useState<string|null>(null);
+ const [saved,setSaved]=useState(false); const [dirty,setDirty]=useState(false);
+ useEffect(()=>{const controller=new AbortController();fetch("/api/strategy",{signal:controller.signal}).then(async r=>{const data=await r.json();if(!r.ok)throw new Error(data.error);const next:StrategyValues={};for(const [key,entry] of Object.entries(data.sections??{}))next[key]=(entry as {values:Record<string,string>}).values??{};
+ setValues(next); const w=next[WORKSPACE_KEY]??{};setCompany(w.company||data.company||organizationName);setReference(w.reference||"");setGoal(w.goal||GOALS[0]);
+ const research=next[RESEARCH_KEY];if(research){try{setProposals(JSON.parse(research.sections||"{}"));setOptions(JSON.parse(research.options||"{}"));setSources(JSON.parse(research.sources||"[]"));setWarning(research.warning||"");}catch{setWarning("La investigación anterior no se pudo recuperar. Podés volver a prepararla.");}}
+ }).catch(e=>{if(e.name!=="AbortError"){setLoadFailed(true);setNotice(e.message??"No se pudo cargar tu estrategia.");}}).finally(()=>{if(!controller.signal.aborted)setLoading(false);});return()=>controller.abort();},[organizationName]);
+ useEffect(()=>{const warn=(e:BeforeUnloadEvent)=>{if(dirty){e.preventDefault();e.returnValue="";}};window.addEventListener("beforeunload",warn);return()=>window.removeEventListener("beforeunload",warn);},[dirty]);
+ const changed=()=>{setSaved(false);setDirty(true);};
+ async function persist(entries:{section:string;values:Record<string,string>}[]){const r=await fetch("/api/strategy",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entries})});const data=await r.json();if(!r.ok||data.saved!==true)throw new Error(data.error??"No se pudo guardar.");}
+ async function saveArea(confirm=false){if(loading||loadFailed)return false;setBusy(true);setNotice("");try{const entries:{section:string;values:Record<string,string>}[]=area.sections.map(section=>{const key=sectionKey(area.pathname,section.title);return {section:key,values:{...values[key],...(confirm&&section.fields.some(f=>Boolean(values[key]?.[f.name]))?{_reviewed:"true"}:{})}};});
+ entries.push({section:WORKSPACE_KEY,values:{company,reference,goal}});await persist(entries);setValues(prev=>({...prev,...Object.fromEntries(entries.map(e=>[e.section,e.values]))}));setSaved(true);setDirty(false);return true;}catch(e){setNotice(e instanceof Error?e.message:"No se pudo guardar.");return false;}finally{setBusy(false);}}
+ async function go(path:string){if(busy)return;if(dirty&&!(await saveArea()))return;router.push(path);}
+ async function research(alternatives=false){if(!company.trim())return;setBusy(true);setNotice("");try{const r=await fetch("/api/ai/generar-estrategia",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({company,reference,goal,area:alternatives?area.id:undefined})});const data=await r.json();if(!r.ok)throw new Error(data.message??"No se pudo investigar la empresa.");
+ const nextProposals={...proposals,...data.sections};const nextOptions={...options,...data.options};const researchValues={sections:JSON.stringify(nextProposals),options:JSON.stringify(nextOptions),sources:JSON.stringify(data.sources??[]),warning:data.warning??"",researchedAt:data.researchedAt??""};
+ // Guardamos propuestas separadas: investigar nunca pisa lo que ya confirmó el equipo.
+ const entries=[{section:WORKSPACE_KEY,values:{company,reference,goal}},{section:RESEARCH_KEY,values:researchValues}];
+ await persist(entries);setProposals(nextProposals);setOptions(nextOptions);setSources(data.sources??[]);setWarning(data.warning??"");setValues(prev=>({...prev,[WORKSPACE_KEY]:{company,reference,goal},[RESEARCH_KEY]:researchValues}));setNotice("Propuestas preparadas. Elegí cuáles usar; tu estrategia confirmada se conserva.");
+ }catch(e){setNotice(e instanceof Error?e.message:"No se pudo investigar. Volvé a intentar.");}finally{setBusy(false);}}
+ function choose(key:string,name:string,value:string){setValues(prev=>({...prev,[key]:{...prev[key],[name]:value,_reviewed:"false"}}));changed();}
+ const nextArea=area.id==="oferta"?strategyAreas.find(a=>a.id==="canales"):strategyAreas[strategyAreas.findIndex(a=>a.id===area.id)+1];
+ const anyData=area.sections.some(s=>Object.values(values[sectionKey(area.pathname,s.title)]??{}).some(Boolean));
+ return <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 p-5 sm:p-8">
+   <header className="flex flex-wrap items-start justify-between gap-3"><div><p className="mb-1 flex items-center gap-2 text-xs text-muted"><Building2 className="h-4 w-4"/>Empresa para la que trabajás</p><h1 className="text-2xl font-semibold tracking-tight">{company||"Tu estrategia GTM"}</h1><p className="mt-1 text-sm text-muted">{goal} · Revisá propuestas y elegí el siguiente paso.</p></div>
+     <button disabled={loading||busy} onClick={async()=>{if(dirty&&!(await saveArea()))return;const {generateStrategyPdf}=await import("@/lib/generate-strategy-pdf");generateStrategyPdf(values,company);}} className="flex items-center gap-2 text-xs text-muted hover:text-brand disabled:opacity-50"><FileDown className="h-4 w-4"/>Exportar contexto guardado</button>
+   </header>
+   <nav aria-label="Etapas de la estrategia" className="flex flex-wrap gap-2">{strategyAreas.map(a=>{const reviewed=a.sections.every(s=>values[sectionKey(a.pathname,s.title)]?._reviewed==="true");return <button key={a.id} disabled={busy||loading} onClick={()=>go(a.pathname)} className={cn("flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm",a.id===area.id?"border-brand bg-brand/10 text-brand":"border-surface-border bg-surface-2 text-muted")} aria-current={a.id===area.id?"step":undefined}>{reviewed&&<Check className="h-3 w-3"/>}{a.id==="estrategia"?"Empresa y objetivo":a.id==="precios"?"Precios · opcional":a.label}</button>;})}</nav>
+   {loading?<p role="status">Recuperando tu contexto…</p>:loadFailed?<p role="alert" className="text-sm text-danger">{notice} <button onClick={()=>window.location.reload()} className="underline">Reintentar</button></p>:<>
+   {(area.id==="estrategia"||(!Object.keys(proposals).length&&!anyData))&&<section className="glass-panel rounded-3xl p-5">
+     <h2 className="text-base font-semibold">¿Qué vamos a trabajar?</h2><p className="mt-1 text-xs text-muted">Usamos la empresa de tu perfil. No es una cuenta prospectada del CRM.</p>
+     <div className="my-4 grid gap-3 sm:grid-cols-2"><label className="text-xs text-muted">Empresa<input value={company} maxLength={120} onChange={e=>{setCompany(e.target.value);changed();}} disabled={busy} className={field}/></label><label className="text-xs text-muted">Web o LinkedIn · opcional<input type="url" value={reference} onChange={e=>{setReference(e.target.value);changed();}} disabled={busy} placeholder="https://tuempresa.com" className={field}/></label></div>
+     <div className="mb-4 grid gap-2 sm:grid-cols-2">{GOALS.map(g=><button key={g} disabled={busy} onClick={()=>{setGoal(g);choose("/build/estrategia:Objetivo comercial","objetivo",g);}} aria-pressed={goal===g} className={cn("rounded-2xl border p-3 text-left text-sm",goal===g?"border-brand bg-brand/10 text-brand":"border-surface-border bg-surface-2 text-muted")}>{g}</button>)}</div>
+     <Button onClick={()=>research()} disabled={busy||!company.trim()}><Sparkles className="h-4 w-4"/>{busy?"Preparando…":Object.keys(proposals).length?"Actualizar investigación":"Investigar y preparar propuestas"}</Button>
+   </section>}
+   <section><div className="mb-4 flex flex-wrap items-start justify-between gap-3"><div><h2 className="text-xl font-semibold">{guide.title}</h2><p className="mt-1 max-w-2xl text-sm text-muted">{guide.description}</p></div>{Object.keys(proposals).length>0&&area.id!=="precios"&&<button disabled={busy} onClick={()=>research(true)} className="text-xs text-brand hover:underline disabled:opacity-50">Ver nuevas alternativas</button>}</div>
+     {area.id==="precios"&&<p className="mb-4 rounded-xl bg-surface-2 p-3 text-sm text-muted">No necesitás definir precios para hacer GTM. Si no hay una lista comercial confirmada, podés seguir directamente a Canales.</p>}
+     <div className="space-y-4">{area.sections.map(section=>{const key=sectionKey(area.pathname,section.title);return <article key={key} className="glass-panel rounded-2xl p-5"><h3 className="mb-3 text-sm font-semibold">{sectionTitle(section.title)}</h3><div className="grid gap-4 lg:grid-cols-2">{section.fields.map(f=>{
+       const current=values[key]?.[f.name]??"";const candidates=[...new Set([proposals[key]?.[f.name],...(options[key]?.[f.name]??[])].filter((v):v is string=>Boolean(v)))];const editKey=key+f.name;
+       return <div key={f.name} className="min-w-0"><p className="mb-2 text-xs font-medium text-muted">{f.label}</p>
+         {current&&<div className="mb-2 rounded-xl border border-brand/25 bg-brand/5 p-3"><p className="mb-1 text-[11px] text-brand">{values[key]?._reviewed==="true"?"Confirmado por el equipo":"Selección actual · pendiente de confirmar"}</p><p className="whitespace-pre-wrap break-words text-sm leading-relaxed">{current}</p></div>}
+         {candidates.filter(c=>c!==current).map((candidate,i)=><button key={i} disabled={busy} onClick={()=>choose(key,f.name,candidate)} className="mb-2 block w-full rounded-xl border border-surface-border bg-surface-2 p-3 text-left transition-colors hover:border-brand"><span className="mb-1 block text-[11px] text-muted">Propuesta para revisar</span><span className="block whitespace-pre-wrap break-words text-sm leading-relaxed">{candidate}</span><span className="mt-2 block text-xs font-medium text-brand">Usar esta opción →</span></button>)}
+         {!current&&!candidates.length&&<p className="mb-2 rounded-xl bg-surface-2 p-3 text-sm text-muted">{area.id==="precios"?"Sin información comercial confirmada. Podés definirlo después.":"Pendiente. Investigá la empresa para recibir propuestas, o continuá y retomalo después."}</p>}
+         <button disabled={busy} onClick={()=>setEditing(editing===editKey?null:editKey)} className="text-xs text-muted underline-offset-4 hover:underline">{editing===editKey?"Cerrar edición":"Editar · opcional"}</button>
+         {editing===editKey&&<textarea aria-label={f.label} rows={4} value={current} disabled={busy} onChange={e=>choose(key,f.name,e.target.value)} className={field+" mt-2"}/>}
+       </div>;
+     })}</div></article>;})}</div>
+   </section>
+   {(sources.length>0||warning)&&<details className="rounded-xl border border-surface-border p-3 text-xs text-muted"><summary className="cursor-pointer">Fuentes y verificación</summary>{warning&&<p className="mt-2">{warning}</p>}<ul className="mt-2 space-y-2">{sources.map(s=><li key={s.url}><a href={s.url} target="_blank" rel="noreferrer" className="text-brand underline">{s.title}</a></li>)}</ul><p className="mt-2">Las propuestas estratégicas requieren tu revisión. Los precios y las condiciones internas no se deducen de la investigación.</p></details>}
+   <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-surface-border pt-4"><div><p className="text-xs text-muted">{guide.deliverable}</p><p role="status" className="mt-1 max-w-xl text-xs text-muted">{notice||(saved?"Cambios guardados":dirty?"Cambios pendientes de guardar":"")}</p></div><div className="flex flex-wrap gap-3"><button disabled={busy} onClick={()=>go(nextArea?.pathname??"/prospeccion")} className="text-xs text-muted hover:underline">Definir después</button><Button disabled={busy} onClick={async()=>{if(await saveArea(true))router.push(nextArea?.pathname??"/prospeccion");}}>{busy?"Guardando…":nextArea?"Confirmar y continuar":"Confirmar y buscar prospectos"}<ArrowRight className="h-4 w-4"/></Button></div></footer>
+   <details className="glass-panel rounded-2xl p-4"><summary className="cursor-pointer text-sm font-medium">Tu ruta de trabajo GTM · de principio a fin</summary><ol className="mt-4 grid gap-3 text-sm sm:grid-cols-2">{[
+     ["/build/estrategia","1. Empresa y objetivo","Revisá el contexto y elegí qué resultado querés conseguir."],
+     ["/build/icp","2. Audiencia y oferta","Confirmá a quién apuntar y qué producto existente promocionar."],
+     ["/prospeccion","3. Buscar cuentas y personas","Verificá los resultados, seleccioná y guardá en el CRM sin duplicados."],
+     ["/studio","4. Preparar contenido y mensajes","Creá piezas con el contexto confirmado. Revisá antes de publicar o enviar."],
+     ["/crm/pipeline","5. Trabajar oportunidades","Asociá empresa y contacto; coordiná reuniones, propuestas y próximos pasos."],
+     ["/dashboard","6. Medir y ajustar","Revisá semana, mes y trimestre. Elegí una mejora para el próximo ciclo."]
+   ].map(([href,title,description])=><li key={href}><Link href={href} className="font-medium text-brand">{title} →</Link><p className="mt-1 text-xs text-muted">{description}</p></li>)}</ol><p className="mt-3 text-xs text-muted">Inbound atrae con contenido. Outbound busca y contacta cuentas. Ambos convergen en el CRM. La publicación y el envío dependen de las integraciones disponibles.</p><div className="mt-3 flex flex-wrap gap-2"><LinkButton href="/studio" size="sm" variant="outline">Preparar contenido</LinkButton><LinkButton href="/crm/actividad" size="sm" variant="outline">Revisar actividad</LinkButton></div></details>
+   </>}
+ </div>;
 }

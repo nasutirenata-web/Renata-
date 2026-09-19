@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Search } from "lucide-react";
 import { FilterGroup, FilterPanel, RadioOptions, pillField } from "@/components/ui/FilterPanel";
-import { logSearch, addProspectToCrm } from "@/app/(app)/prospeccion/actions";
-import { ProspectResults, type Prospecto, type Temp } from "@/components/prospeccion/ProspectResults";
+import { logSearch } from "@/app/(app)/prospeccion/actions";
+import { ProspectResults, type Prospecto } from "@/components/prospeccion/ProspectResults";
 import { cn } from "@/lib/utils";
 
 type Origen = "outbound" | "inbound";
@@ -27,8 +27,6 @@ export function AdvancedProspectSearch() {
   const [origen, setOrigen] = useState<Origen>("outbound");
 
   const [results, setResults] = useState<Prospecto[]>([]);
-  const [temps, setTemps] = useState<Record<number, Temp>>({});
-  const [added, setAdded] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -51,8 +49,6 @@ export function AdvancedProspectSearch() {
     setLoading(true);
     setNotice(null);
     setResults([]);
-    setTemps({});
-    setAdded({});
     setSearched(true);
     try {
       const res = await fetch("/api/ai/prospectar", {
@@ -79,13 +75,6 @@ export function AdvancedProspectSearch() {
     } finally {
       setLoading(false);
     }
-  }
-
-  function handleAdd(i: number, name: string) {
-    startTransition(async () => {
-      const res = await addProspectToCrm(name, origen);
-      if (!res?.error) setAdded((prev) => ({ ...prev, [i]: true }));
-    });
   }
 
   return (
@@ -198,16 +187,7 @@ export function AdvancedProspectSearch() {
 
         {!loading && results.length > 0 && (
           <>
-            <p className="px-2 text-xs uppercase tracking-wide text-muted-2">
-              {results.length} hipótesis
-            </p>
-            <ProspectResults
-              results={results}
-              temps={temps}
-              added={added}
-              onTemp={(i, t) => setTemps((prev) => ({ ...prev, [i]: t }))}
-              onAdd={handleAdd}
-            />
+            <ProspectResults key={results.map((r) => r.nombre_hipotetico).join("|")} results={results} origin={origen} />
           </>
         )}
 

@@ -1,9 +1,13 @@
+import { getStrategyContext } from "@/lib/strategy-context";
+import { geminiErrorMessage } from "@/lib/gemini-errors";
 import { requireAIUser } from "@/lib/api-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { getSkillTool } from "@/lib/skills-registry";
+import { getOrgContext } from "@/lib/supabase/org";
+import { logActivity } from "@/lib/supabase/activity";
 
 export async function POST(req: NextRequest) {
   const denied = await requireAIUser();
@@ -46,17 +50,20 @@ export async function POST(req: NextRequest) {
   const ai = new GoogleGenAI({ apiKey });
 
   try {
+    const strategyContext = await getStrategyContext();
     const interaction = await ai.interactions.create({
       model: "gemini-3.6-flash",
       input: `Datos aportados por el usuario para esta tarea:\n\n${inputsText || "(sin datos adicionales — usá las reglas por defecto de la skill)"}\n\nGenerá el resultado siguiendo exactamente el workflow y las reglas de la skill.`,
-      system_instruction: skillContent,
+      system_instruction: skillContent + "\n\n" + strategyContext,
     });
+
+    const ctx = await getOrgContext();
+    if (ctx) await logActivity(ctx, { kind: "ia_generacion", body: `Se generó con IA: ${tool.title}.` });
 
     return NextResponse.json({ result: interaction.output_text });
   } catch (error) {
-    const description = error instanceof Error ? error.message : "Error desconocido.";
     return NextResponse.json(
-      { error: "provider_error", message: `Gemini devolvió un error: ${description}` },
+      { error: "provider_error", message: geminiErrorMessage(error) },
       { status: 502 },
     );
   }

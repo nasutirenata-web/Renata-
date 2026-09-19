@@ -1,3 +1,4 @@
+import { geminiErrorMessage } from "@/lib/gemini-errors";
 import { requireAIUser } from "@/lib/api-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
@@ -47,9 +48,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ dataUrl: `data:image/jpeg;base64,${image.data}` });
   } catch (error) {
-    const description = error instanceof Error ? error.message : "Error desconocido.";
     return NextResponse.json(
-      { error: "provider_error", message: `Gemini devolvió un error: ${description}` },
+      { error: "provider_error", message: geminiErrorMessage(error, "imágenes") },
       { status: 502 },
     );
   }

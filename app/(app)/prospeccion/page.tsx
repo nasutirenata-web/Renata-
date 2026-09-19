@@ -6,6 +6,7 @@ import { ProspectSearch } from "@/components/prospeccion/ProspectSearch";
 import { HunterDomainSearch } from "@/components/prospeccion/HunterDomainSearch";
 import { getOrgContext } from "@/lib/supabase/org";
 import { formatDateTime } from "@/lib/utils";
+import { activityDetail } from "@/lib/activity-text";
 import { isHunterConfigured } from "@/lib/integrations/hunter";
 import { ClipboardList } from "lucide-react";
 
@@ -39,7 +40,7 @@ export default async function ProspeccionPage() {
     <>
       <PageHeader
         title="Prospección"
-        description="Buscá comercios nuevos para arrancar el outbound, o cargalos a mano."
+        description="Buscá empresas y personas para arrancar el outbound. Lo que guardes acá pasa a tu CRM."
       />
       <div className="flex flex-col gap-8 p-8">
         {hunterConnected && <HunterDomainSearch />}
@@ -47,19 +48,19 @@ export default async function ProspeccionPage() {
 
         <div>
           <p className="mb-4 font-logo text-xs uppercase tracking-[0.2em] text-muted-2">
-            Resultado de cada proceso terminado
+            Búsquedas recientes
           </p>
           {!ctx || activities.length === 0 ? (
             <EmptyState
               icon={ClipboardList}
               title="Sin búsquedas registradas todavía"
-              body="Cada búsqueda completada va a quedar registrada acá con su resultado."
+              body="Acá queda el historial de tus búsquedas. Recordá que las sugerencias de IA no son empresas confirmadas."
             />
           ) : (
             <div className="flex flex-col gap-2">
               {activities.map((a) => (
                 <Card key={a.id} className="flex items-center justify-between gap-4 py-3">
-                  <p className="text-sm text-foreground/90">{a.body}</p>
+                  <p className="text-sm text-foreground/90">{activityDetail(a.body)}</p>
                   <span className="shrink-0 text-xs text-muted-2">
                     {formatDateTime(a.created_at)}
                   </span>

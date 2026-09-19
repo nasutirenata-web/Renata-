@@ -1,3 +1,5 @@
+import { getStrategyContext } from "@/lib/strategy-context";
+import { geminiErrorMessage } from "@/lib/gemini-errors";
 import { requireAIUser } from "@/lib/api-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
@@ -49,17 +51,17 @@ export async function POST(req: NextRequest) {
     .join("\n\n");
 
   try {
+    const strategyContext = await getStrategyContext();
     const interaction = await ai.interactions.create({
       model: "gemini-3.6-flash",
       input: conversation,
-      system_instruction: SYSTEM_PROMPT,
+      system_instruction: SYSTEM_PROMPT + "\n\n" + strategyContext,
     });
 
     return NextResponse.json({ message: interaction.output_text });
   } catch (error) {
-    const description = error instanceof Error ? error.message : "Error desconocido.";
     return NextResponse.json(
-      { error: "provider_error", message: `Gemini devolvió un error: ${description}` },
+      { error: "provider_error", message: geminiErrorMessage(error) },
       { status: 502 },
     );
   }
